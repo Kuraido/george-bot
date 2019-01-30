@@ -13,6 +13,9 @@ const prefix = botSetting.prefix;
 
 var runName = '';
 var orgMsg = '';
+var info = '';
+var partehTime = new Date();
+var currentTime = new Date();
 var organizer;
 var person;
 var hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
@@ -25,6 +28,8 @@ var isRoleAvailable = false;
 //var isDisbandChoice = false;
 //var isDitchChoice = false;
 var ditchSlot;
+
+var helpMsg = botSetting.help;
 
 /**
  * The ready event is vital, it means that only _after_ this will your bot start reacting to information
@@ -100,17 +105,23 @@ var person = parts[2];
 		else if(role[roleCount] === 'bio' || role[roleCount] === 'creator'){
 			role[roleCount] = 'bio';
 		}
+		else if(role[roleCount] === 'champ' || role[roleCount] === 'champion'){
+			role[roleCount] = 'champ';
+		}
 		else if(role[roleCount] === 'hp' || role[roleCount] === 'priest'){
 			role[roleCount] = 'hp';
 		}
 		else if(role[roleCount] === 'hw' || role[roleCount] === 'wiz' || role[roleCount] === 'wizard'){
 			role[roleCount] = 'hw';
 		}
+		else if(role[roleCount] === 'lk' || role[roleCount] === 'knight'){
+			role[roleCount] = 'lk';
+		}
 		else if(role[roleCount] === 'pally' || role[roleCount] === 'paladin'){
 			role[roleCount] = 'pally';
 		}
-		else if(role[roleCount] === 'champ' || role[roleCount] === 'champion'){
-			role[roleCount] = 'champ';
+		else if(role[roleCount] === 'sinx' || role[roleCount] === 'assassin'){
+			role[roleCount] = 'sinx';
 		}
 		else if(role[roleCount] === 'ws' || role[roleCount] === 'whitesmith'){
 			role[roleCount] = 'ws';
@@ -249,26 +260,32 @@ var person = parts[2];
 				partyRosterString = partyRosterString.concat(":free: (Free)\n");
 			}
 			else{
-				if(role[x]==='hp'){
+				if(role[x]==='bio'){
+					partyRosterString = partyRosterString.concat(":moneybag: Bio: " + hueman[x] + "\n");
+				}
+				else if(role[x]==='champ'){
+					partyRosterString = partyRosterString.concat(":punch: Champ: " + hueman[x] + "\n");
+				}
+				else if(role[x]==='hp'){
 					partyRosterString = partyRosterString.concat(":syringe: HP: " + hueman[x] + "\n");
 				}
 				else if(role[x]==='hw'){
 					partyRosterString = partyRosterString.concat(":sparkles: HW: " + hueman[x] + "\n");
 				}
-				else if(role[x]==='bio'){
-					partyRosterString = partyRosterString.concat(":moneybag: Bio: " + hueman[x] + "\n");
-				}
-				else if(role[x]==='ws'){
-					partyRosterString = partyRosterString.concat(":hammer: WS: " + hueman[x] + "\n");
+				else if(role[x]==='lk'){
+					partyRosterString = partyRosterString.concat(":crossed_swords: LK: " + hueman[x] + "\n");
 				}
 				else if(role[x]==='pally'){
-					partyRosterString = partyRosterString.concat(":poultry_leg: Pally: " + hueman[x] + "\n");
+					partyRosterString = partyRosterString.concat(":shield: Pally: " + hueman[x] + "\n");
 				}
-				else if(role[x]==='champ'){
-					partyRosterString = partyRosterString.concat(":shield: Champ: " + hueman[x] + "\n");
+				else if(role[x]==='sinx'){
+					partyRosterString = partyRosterString.concat(":knife: SinX: " + hueman[x] + "\n");
 				}
 				else if(role[x]==='sniper'){
 					partyRosterString = partyRosterString.concat(":bow_and_arrow: Sniper: " + hueman[x] + "\n");
+				}
+				else if(role[x]==='ws'){
+					partyRosterString = partyRosterString.concat(":hammer: WS: " + hueman[x] + "\n");
 				}
 				else{
 					partyRosterString = partyRosterString.concat(":bust_in_silhouette: " + role[x] + ": " + hueman[x] + "\n");
@@ -295,6 +312,7 @@ var person = parts[2];
 		const collector = new MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 5000 });
         collector.on('collect', replyMsg => {
             if (replyMsg.content === "y") {
+				//info = '';
                 runName = '';
 				roleCount = 0;
 				slotCount = 0;
@@ -309,11 +327,48 @@ var person = parts[2];
 		})
 	}
   }
-  else if (command === `${prefix}time`) {
-	if (isPartyCreated == false){
-		message.channel.send('Nothing to set time to bishhhhhhh! :grimacing:');
-	}
+  else if (command === `${prefix}help`|| command === `${prefix}halp`) {
+	  message.author.send("George Bot for dummies:");
+	  message.author.send(helpMsg);
+	  message.channel.send("Psst " + message.author.toString() + "... I have secretly sent noods to you via PM muehuehuehue :japanese_goblin:");
   }
+  else if (command === `${prefix}time`) {
+	//if (isPartyCreated == false){
+//		message.channel.send('Nothing to set time to bishhhhhhh! :grimacing:');
+//	}
+//	else if (!name){
+		//message.channel.send('Set a time for the parteh bishhhhhhh! :grimacing:');
+	//}
+	//else{
+		//var setTime = name.split(":")
+		
+		//partehTime.setHours(setTime[0]);
+		//partehTime.setMinutes(setTime[1]);
+		currentTime = new Date();
+		//var countHour = partehTime.getHours() - currentTime.getHours();
+		//var countMinute = partehTime.getMinutes() - currentTime.getMinutes();
+		//message.channel.send(message.author.toString() + " time is:\n" + currentTime.getMonth() + " " + currentTime.getDate() + ", " + currentTime.getYear());// + "\n" + currentTime.getHour() + ":" + currentTime.getMinutes() + ":" + currentTime.getSecond());
+		//message.channel.send(message.author.toString() + " time is:\n" + currentTime + "\n" + countHour + "hours and " + countMinute + " minutes to go.");//
+		message.channel.send(message.author.toString() + " time is:\n" + currentTime + "\ngetTimeZoneOffset Value: " + currentTime.getTimezoneOffset());
+	//}
+  }
+  //else if (command === `${prefix}info`) {
+	//if (isPartyCreated == false){
+//		message.channel.send('Nothing to set info to bishhhhhhh! :grimacing:');
+//	}
+//	else if (!name) {
+		//message.channel.send('Input the extra info for this parteh bishhhhhhh! :grimacing:');
+	//}
+	//else{
+//		info = content.slice(6);
+		//const embed = new RichEmbed()
+		  //.setTitle("Strange Despair's " + runName)
+		  //.setColor(0xFF0000)
+		  //.setDescription(orgMsg + partyRosterString + '\n' + info)
+		  //.setFooter('Parteh Members: ' + slotCount + ' / ' + roleCount);
+		//message.channel.send(embed);
+	//}
+  //}
   //else if (command === prefix + 'prefix') {
 	//prefix = parts[1];
 	//message.channel.send('Changed prefix to ' + prefix);
@@ -322,3 +377,4 @@ var person = parts[2];
 
 // Log our bot in using the token from https://discordapp.com/developers/applications/me
 client.login(process.env.BOT_TOKEN);
+//client.login(botSetting.token);
