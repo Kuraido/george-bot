@@ -376,5 +376,5 @@ var person = parts[2];
 });
 
 // Log our bot in using the token from https://discordapp.com/developers/applications/me
-client.login(process.env.BOT_TOKEN);
-//client.login(botSetting.token);
+//client.login(process.env.BOT_TOKEN);
+client.login(botSetting.token);
