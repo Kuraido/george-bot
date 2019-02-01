@@ -10,26 +10,25 @@ const botSetting = require("./auth.json")
 const client = new Client();
 
 const prefix = botSetting.prefix;
+const helpMsg = botSetting.help;
 
-var runName = '';
-var orgMsg = '';
-var info = '';
-var partehTime = new Date();
-var currentTime = new Date();
-var organizer;
-var person;
-var hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
-var role = ['', '', '', '', '', '', '', '', '', '', '', ''];
-var partyRosterString = '';
-var roleCount = 0;
-var slotCount = 0;
-var isPartyCreated = false;
-var isRoleAvailable = false;
-//var isDisbandChoice = false;
-//var isDitchChoice = false;
-var ditchSlot;
+let runName = '';
+let orgMsg = '';
+let info = '';
+let partehTime = new Date();
+let currentTime = new Date();
+let organizer;
+let hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
+let role = ['', '', '', '', '', '', '', '', '', '', '', ''];
+let note = ['', '', '', '', '', '', '', '', '', '', '', ''];
+let partyRosterString = '';
+let roleCount = 0;
+let slotCount = 0;
+let isPartyCreated = false;
+let isRoleAvailable = false;
+let ditchSlot;
 
-var helpMsg = botSetting.help;
+
 
 /**
  * The ready event is vital, it means that only _after_ this will your bot start reacting to information
@@ -40,6 +39,8 @@ client.on('ready', () => {
 });
 
 client.on('message', async message => {
+
+	
 var content = message.content;
 var parts = content.split(" ");
 var command = parts[0];
@@ -73,7 +74,7 @@ var person = parts[2];
 		if(isPartyCreated === true){
 			organizer = message.author.toString();
 			orgMsg = 'Organized by ' + organizer + ' :grimacing:\n\n';
-			var partyRosterString = '';
+			partyRosterString = '';
 			for(var x = 0; x<12; x++){
 				partyRosterString = partyRosterString.concat(':free: (Free)\n');
 			}
@@ -86,7 +87,7 @@ var person = parts[2];
 			  // Set the color of the embed
 			  .setColor(0xFF0000)
 			  // Set the main content of the embed
-			  .setDescription(orgMsg + partyRosterString)
+			  .setDescription(orgMsg + partyRosterString + "\n")
 			  .setFooter('Parteh Members: ' + slotCount + ' / ' + roleCount);
 			// Send the embed to the same channel as the message
 			message.channel.send(embed);
@@ -119,6 +120,9 @@ var person = parts[2];
 		}
 		else if(role[roleCount] === 'pally' || role[roleCount] === 'paladin'){
 			role[roleCount] = 'pally';
+		}
+		else if(role[roleCount] === 'prof' || role[roleCount] === 'professor'){
+			role[roleCount] = 'prof';
 		}
 		else if(role[roleCount] === 'sinx' || role[roleCount] === 'assassin'){
 			role[roleCount] = 'sinx';
@@ -187,9 +191,9 @@ var person = parts[2];
   }
   else if (command === `${prefix}invite`) {
 	if (isPartyCreated == false){
-		message.channel.send('No parteh exist yet bishhhhhhh! :grimacing:');
+		message.channel.send("There's no parteh yet bishhhhhhh! :grimacing:");
 	}
-	else if(!name){
+  else if(!name || !role.includes(name.toLowerCase())){
 		message.channel.send('Input the role you want to join bishhhhhhh! :grimacing:');
 	}
 	else if(role.includes(name.toLowerCase())==false && hueman[role.lastIndexOf(name.toLowerCase())] == ''){
@@ -249,6 +253,52 @@ var person = parts[2];
 		}
 	}
   }
+  else if (command === `${prefix}note`) {
+	if (isPartyCreated == false){
+		message.channel.send("There's no parteh yet bishhhhhhh! :grimacing:");
+	}
+	else if(!hueman.includes(message.author.toString())){
+		message.channel.send("You're not even in the parteh bishhhhhhh! :grimacing:");
+	}
+	else if(!name){
+		message.channel.send("Your note is blank bishhhhhhh! :grimacing:");
+	}
+	else{
+		note[hueman.indexOf(message.author.toString())] = " (" + content.slice(6) + ")";
+		message.channel.send(":white_check_mark: The note has been shamelessly added muehuehuehuehue :japanese_goblin:");
+	}
+  }
+  else if (command === `${prefix}kick`) {
+	if (isPartyCreated == false){
+		message.channel.send("There's no parteh yet bishhhhhhh! :grimacing:");
+	}
+	else if(!name){
+		message.channel.send("Input a name bishhhhhhh! :grimacing:");
+	}
+	else if(!hueman.includes(name)){
+		message.channel.send(name + " is not even in the parteh bishhhhhhh! :grimacing:");
+	}
+	else{
+		note[hueman.indexOf(name)] = '';
+		hueman[hueman.indexOf(name)] = '';
+		message.channel.send(":negative_squared_cross_mark: "+name+" has been shamelessly kicked hard out of the parteh muehuehuehuehue :japanese_goblin:");
+	}
+  }
+  else if (command === `${prefix}info`) {
+	if (isPartyCreated == false){
+		message.channel.send("There's no parteh yet bishhhhhhh! :grimacing:");
+	}
+	else if(organizer != message.author.toString()){
+		message.channel.send('Only the organizer ' + organizer + ' can put info in the parteh of despair! muehuehuehuehuehue :japanese_goblin:');
+	}
+	else if(!name){
+		message.channel.send("Your info is blank bishhhhhhh! :grimacing:");
+	}
+	else{
+		info = "\n" + content.slice(6);
+		message.channel.send(":white_check_mark: Additional information for the parteh has been shamelessly added muehuehuehuehue :japanese_goblin:");
+	}
+  }
   else if (command === `${prefix}view`) {
 	if (isPartyCreated == false){
 		message.channel.send('Nothing to view bishhhhhhh! :grimacing:');
@@ -261,41 +311,44 @@ var person = parts[2];
 			}
 			else{
 				if(role[x]==='bio'){
-					partyRosterString = partyRosterString.concat(":moneybag: Bio: " + hueman[x] + "\n");
+					partyRosterString = partyRosterString.concat(":moneybag: Bio: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='champ'){
-					partyRosterString = partyRosterString.concat(":punch: Champ: " + hueman[x] + "\n");
+					partyRosterString = partyRosterString.concat(":punch: Champ: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='hp'){
-					partyRosterString = partyRosterString.concat(":syringe: HP: " + hueman[x] + "\n");
+					partyRosterString = partyRosterString.concat(":syringe: HP: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='hw'){
-					partyRosterString = partyRosterString.concat(":sparkles: HW: " + hueman[x] + "\n");
+					partyRosterString = partyRosterString.concat(":sparkles: HW: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='lk'){
-					partyRosterString = partyRosterString.concat(":crossed_swords: LK: " + hueman[x] + "\n");
+					partyRosterString = partyRosterString.concat(":crossed_swords: LK: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='pally'){
-					partyRosterString = partyRosterString.concat(":shield: Pally: " + hueman[x] + "\n");
+					partyRosterString = partyRosterString.concat(":shield: Pally: " + hueman[x] + note[x] + "\n");
+				}
+				else if(role[x]==='prof'){
+					partyRosterString = partyRosterString.concat(":book: Prof: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='sinx'){
-					partyRosterString = partyRosterString.concat(":knife: SinX: " + hueman[x] + "\n");
+					partyRosterString = partyRosterString.concat(":knife: SinX: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='sniper'){
-					partyRosterString = partyRosterString.concat(":bow_and_arrow: Sniper: " + hueman[x] + "\n");
+					partyRosterString = partyRosterString.concat(":bow_and_arrow: Sniper: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='ws'){
-					partyRosterString = partyRosterString.concat(":hammer: WS: " + hueman[x] + "\n");
+					partyRosterString = partyRosterString.concat(":hammer: WS: " + hueman[x] + note[x] + "\n");
 				}
 				else{
-					partyRosterString = partyRosterString.concat(":bust_in_silhouette: " + role[x] + ": " + hueman[x] + "\n");
+					partyRosterString = partyRosterString.concat(":bust_in_silhouette: " + role[x] + ": " + hueman[x] + note[x] + "\n");
 				}
 			}
 		}
 		const embed = new RichEmbed()
 		  .setTitle("Strange Despair's " + runName)
 		  .setColor(0xFF0000)
-		  .setDescription(orgMsg + partyRosterString)
+		  .setDescription(orgMsg + partyRosterString + "\n" + info)
 		  .setFooter('Parteh Members: ' + slotCount + ' / ' + roleCount);
 		message.channel.send(embed);
 	}
@@ -314,11 +367,13 @@ var person = parts[2];
             if (replyMsg.content === "y") {
 				//info = '';
                 runName = '';
+				info = '';
 				roleCount = 0;
 				slotCount = 0;
 				isPartyCreated = false;
 				hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
 				role = ['', '', '', '', '', '', '', '', '', '', '', ''];
+				note = ['', '', '', '', '', '', '', '', '', '', '', ''];
 				message.channel.send(":negative_squared_cross_mark: The parteh has now been devoured deep within the abyssal void. :grimacing:");
             }
 			else{
@@ -332,49 +387,34 @@ var person = parts[2];
 	  message.author.send(helpMsg);
 	  message.channel.send("Psst " + message.author.toString() + "... I have secretly sent noods to you via PM muehuehuehue :japanese_goblin:");
   }
-  else if (command === `${prefix}time`) {
+  //else if (command === `${prefix}time`) {
 	//if (isPartyCreated == false){
 //		message.channel.send('Nothing to set time to bishhhhhhh! :grimacing:');
 //	}
-//	else if (!name){
-		//message.channel.send('Set a time for the parteh bishhhhhhh! :grimacing:');
+//	else if(organizer != message.author.toString()){
+		//message.channel.send('Only the organizer ' + organizer + ' can put info in the parteh of despair! muehuehuehuehuehue :japanese_goblin:');
+	//}
+	//else if (!name){
+//		message.channel.send('Set a time for the parteh bishhhhhhh! :grimacing:');
+//	}
+//	else if(!name.includes(":")){
+		//message.channel.send('Set a proper time bishhhhhhh! :grimacing:');
 	//}
 	//else{
 		//var setTime = name.split(":")
 		
 		//partehTime.setHours(setTime[0]);
 		//partehTime.setMinutes(setTime[1]);
-		currentTime = new Date();
+		//currentTime = new Date();
 		//var countHour = partehTime.getHours() - currentTime.getHours();
 		//var countMinute = partehTime.getMinutes() - currentTime.getMinutes();
 		//message.channel.send(message.author.toString() + " time is:\n" + currentTime.getMonth() + " " + currentTime.getDate() + ", " + currentTime.getYear());// + "\n" + currentTime.getHour() + ":" + currentTime.getMinutes() + ":" + currentTime.getSecond());
 		//message.channel.send(message.author.toString() + " time is:\n" + currentTime + "\n" + countHour + "hours and " + countMinute + " minutes to go.");//
-		message.channel.send(message.author.toString() + " time is:\n" + currentTime + "\ngetTimeZoneOffset Value: " + currentTime.getTimezoneOffset());
+		//message.channel.send(message.author.toString() + " time is:\n" + currentTime + "\ngetTimeZoneOffset Value: " + currentTime.getTimezoneOffset());
 	//}
-  }
-  //else if (command === `${prefix}info`) {
-	//if (isPartyCreated == false){
-//		message.channel.send('Nothing to set info to bishhhhhhh! :grimacing:');
-//	}
-//	else if (!name) {
-		//message.channel.send('Input the extra info for this parteh bishhhhhhh! :grimacing:');
-	//}
-	//else{
-//		info = content.slice(6);
-		//const embed = new RichEmbed()
-		  //.setTitle("Strange Despair's " + runName)
-		  //.setColor(0xFF0000)
-		  //.setDescription(orgMsg + partyRosterString + '\n' + info)
-		  //.setFooter('Parteh Members: ' + slotCount + ' / ' + roleCount);
-		//message.channel.send(embed);
-	//}
-  //}
-  //else if (command === prefix + 'prefix') {
-	//prefix = parts[1];
-	//message.channel.send('Changed prefix to ' + prefix);
   //}
 });
 
 // Log our bot in using the token from https://discordapp.com/developers/applications/me
-client.login(process.env.BOT_TOKEN);
-//client.login(botSetting.token);
+//client.login(process.env.BOT_TOKEN);
+client.login(botSetting.token);
