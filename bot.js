@@ -131,7 +131,7 @@ var person = parts[2];
 			role[roleCount] = 'ws';
 		}
 		else{
-			role[roleCount] = name.charAt(0).toUpperCase() + name.slice(1);
+			role[roleCount] = name.slice(1);
 		}
 		message.channel.send(":white_check_mark: " + role[roleCount].toUpperCase() + " role has been added to the despair list. Muehuehuehue :japanese_goblin:");
 		roleCount++;
@@ -144,7 +144,7 @@ var person = parts[2];
 	else if(!name){
 		message.channel.send('Input the role you want to remove bishhhhhhh! :grimacing:');
 	}
-	else if(role.includes(name.toLowerCase())==false){
+	else if(!role.includes(name.toLowerCase())){
 		message.channel.send('There is no such role in the parteh bishhhhhhh! :grimacing:');
 	}
 	else{
