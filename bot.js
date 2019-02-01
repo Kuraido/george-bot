@@ -131,7 +131,7 @@ var person = parts[2];
 			role[roleCount] = 'ws';
 		}
 		else{
-			role[roleCount] = name.slice(1);
+			role[roleCount] = name.toLowerCase();
 		}
 		message.channel.send(":white_check_mark: " + role[roleCount].toUpperCase() + " role has been added to the despair list. Muehuehuehue :japanese_goblin:");
 		roleCount++;
