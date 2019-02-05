@@ -14,9 +14,11 @@ const helpMsg = botSetting.help;
 
 let runName = '';
 let orgMsg = '';
+let timeMsg = '';
 let info = '';
-let partehTime = new Date();
-let currentTime = new Date();
+let setTime;
+let partehTime;
+//let currentTime = new Date();
 let organizer;
 let hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
 let role = ['', '', '', '', '', '', '', '', '', '', '', ''];
@@ -40,7 +42,6 @@ client.on('ready', () => {
 
 client.on('message', async message => {
 
-	
 var content = message.content;
 var parts = content.split(" ");
 var command = parts[0];
@@ -65,7 +66,7 @@ var person = parts[2];
 			runName = 'Wave Challenge'
 		}
 		else if(!name){//typeof name === 'undefined'){
-			message.channel.send('Name ze run bishhhhhhhhhh! :grimacing:');
+			message.channel.send('Name ze run bishhhhhhhhhh! :grimacing:\n```correct usage: !create [name of parteh]```');
 			isPartyCreated = false;
 		}
 		else{
@@ -98,9 +99,15 @@ var person = parts[2];
 	if (isPartyCreated == false){
 		message.channel.send("There's no parteh yet bishhhhhhh! :grimacing:");
 	}
+	else if(!name){
+		message.channel.send("Input the role you want to add bishhhhhhh! :grimacing:\n```correct usage: !add [name of role]```");
+	}
+	else if(roleCount >= 12){
+		message.channel.send("Party roster is full bish bishhhhhhh! :grimacing:");
+	}
 	else{
 		role[roleCount]=name.toLowerCase();
-	if(role[roleCount] === 'sniper' || role[roleCount] === 'snip'){
+		if(role[roleCount] === 'sniper' || role[roleCount] === 'snip'){
 			role[roleCount] = 'sniper';
 		}
 		else if(role[roleCount] === 'bio' || role[roleCount] === 'creator'){
@@ -142,7 +149,7 @@ var person = parts[2];
 		message.channel.send("There's no parteh yet bishhhhhhh! :grimacing:");
 	}
 	else if(!name){
-		message.channel.send('Input the role you want to remove bishhhhhhh! :grimacing:');
+		message.channel.send('Input the role you want to remove bishhhhhhh! :grimacing:\n```correct usage: !remove [name of role]```');
 	}
 	else if(!role.includes(name.toLowerCase())){
 		message.channel.send('There is no such role in the parteh bishhhhhhh! :grimacing:');
@@ -153,6 +160,7 @@ var person = parts[2];
 		}
 		else{
 			message.channel.send(":white_check_mark: " + name.toUpperCase() + " role has been removed together with " + hueman[role.lastIndexOf(name.toLowerCase())] + ". Muehuehuehuehue :japanese_goblin:");
+			note[hueman[role.lastIndexOf(name.toLowerCase())]] = '';
 			slotCount--;
 		}
 		hueman.splice(role.lastIndexOf(name.toLowerCase()), 1);
@@ -166,11 +174,14 @@ var person = parts[2];
 	if (isPartyCreated == false){
 		message.channel.send('Nothing to join to bishhhhhhh! :grimacing:');
 	}
+	else if(slotCount >= roleCount){
+		message.channel.send("Party roster is full bish bishhhhhhh! :grimacing:");
+	}
 	else if(hueman.includes(message.author.toString()) == true){
 		message.channel.send('You already joined bishhhhhhh! :grimacing:');
 	}
 	else if(!name){
-		message.channel.send('Input the role you want to join bishhhhhhh! :grimacing:');
+		message.channel.send('Input the role you want to join bishhhhhhh! :grimacing:\n```correct usage: !join [name of role]```');
 	}
 	else{
 		for(var x = 0; x<roleCount; x++){
@@ -193,14 +204,17 @@ var person = parts[2];
 	if (isPartyCreated == false){
 		message.channel.send("There's no parteh yet bishhhhhhh! :grimacing:");
 	}
-  else if(!name || !role.includes(name.toLowerCase())){
-		message.channel.send('Input the role you want to join bishhhhhhh! :grimacing:');
+	else if(!name || !role.includes(name.toLowerCase())){
+		message.channel.send('Input the role you want to join bishhhhhhh! :grimacing:\n```correct usage: !invite [name of role] [name of person]```');
 	}
 	else if(role.includes(name.toLowerCase())==false && hueman[role.lastIndexOf(name.toLowerCase())] == ''){
 		message.channel.send('Role is not available bishhhhhhh! :grimacing:');
 	}
 	else if(!person){
-		message.channel.send('Input the name of the hueman you want to invite bishhhhhhh! :grimacing:');
+		message.channel.send('Input the name of the hueman you want to invite bishhhhhhh! :grimacing:\n```correct usage: !invite [name of role] [name of person]```');
+	}
+	else if(slotCount >= roleCount){
+		message.channel.send("Party roster is full bish bishhhhhhh! :grimacing:");
 	}
 	else{
 		if(hueman.includes(person) === false){
@@ -239,9 +253,10 @@ var person = parts[2];
 		}
 		else{
 			message.channel.send('NOOOOOoooooooooOOOOOOO\nDo you really want to ditch us!?\n(type y if yes.)');
-			const collector = new MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 5000 });
+			const collector = new MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 8000 });
 			collector.on('collect', replyMsg => {
-				if (replyMsg.content === "y") {
+				if (replyMsg.content.toLowerCase() === "y") {
+					note[hueman.indexOf(message.author.toString())] = '';
 					hueman[hueman.indexOf(message.author.toString())] = '';
 					slotCount--;
 					message.channel.send(":negative_squared_cross_mark: A shameless person has ditched the parteh. :grimacing:");
@@ -261,7 +276,13 @@ var person = parts[2];
 		message.channel.send("You're not even in the parteh bishhhhhhh! :grimacing:");
 	}
 	else if(!name){
-		message.channel.send("Your note is blank bishhhhhhh! :grimacing:");
+		if(note[hueman.indexOf(message.author.toString())] === ''){
+			message.channel.send("Your note is blank bishhhhhhh! :grimacing:\n```correct usage: !note [your message here]```");
+		}
+		else{
+			note[hueman.indexOf(message.author.toString())] = '';
+			message.channel.send(":negative_squared_cross_mark: The note has been shamelessly removed muehuehuehuehue :japanese_goblin:");
+		}
 	}
 	else{
 		note[hueman.indexOf(message.author.toString())] = " (" + content.slice(6) + ")";
@@ -273,7 +294,7 @@ var person = parts[2];
 		message.channel.send("There's no parteh yet bishhhhhhh! :grimacing:");
 	}
 	else if(!name){
-		message.channel.send("Input a name bishhhhhhh! :grimacing:");
+		message.channel.send("Input a name bishhhhhhh! :grimacing:\n```correct usage: !kick [name of person]```");
 	}
 	else if(!hueman.includes(name)){
 		message.channel.send(name + " is not even in the parteh bishhhhhhh! :grimacing:");
@@ -281,6 +302,7 @@ var person = parts[2];
 	else{
 		note[hueman.indexOf(name)] = '';
 		hueman[hueman.indexOf(name)] = '';
+		slotCount--;
 		message.channel.send(":negative_squared_cross_mark: "+name+" has been shamelessly kicked hard out of the parteh muehuehuehuehue :japanese_goblin:");
 	}
   }
@@ -292,7 +314,13 @@ var person = parts[2];
 		message.channel.send('Only the organizer ' + organizer + ' can put info in the parteh of despair! muehuehuehuehuehue :japanese_goblin:');
 	}
 	else if(!name){
-		message.channel.send("Your info is blank bishhhhhhh! :grimacing:");
+		if(info === ''){
+			message.channel.send("Your info is blank bishhhhhhh! :grimacing:\n```correct usage: !info [your message here]```");
+		}
+		else{
+			info = '';
+			message.channel.send(":negative_squared_cross_mark: Additional information for the parteh has been shamelessly removed muehuehuehuehue :japanese_goblin:");
+		}
 	}
 	else{
 		info = "\n" + content.slice(6);
@@ -345,8 +373,21 @@ var person = parts[2];
 				}
 			}
 		}
+		if(partehTime){
+			var currentTime = new Date();
+			currentTime.setMinutes(currentTime.getMinutes() - currentTime.getTimezoneOffset());
+			var diffTime = (partehTime - currentTime) / 60000;
+			var partehHour = Math.trunc(diffTime / 60);
+			var partehMinute = Math.round(diffTime % 60);
+			if(partehTime >= currentTime){
+				timeMsg = "(" + partehHour + " hours " + partehMinute + " minutes before the start of despair)";
+			}
+			else{
+				timeMsg = "(ongoing despair muehuehuehuehue :japanese_goblin:)";
+			}
+		}
 		const embed = new RichEmbed()
-		  .setTitle("Strange Despair's " + runName)
+		  .setTitle("Strange Despair's " + runName + " " + timeMsg)
 		  .setColor(0xFF0000)
 		  .setDescription(orgMsg + partyRosterString + "\n" + info)
 		  .setFooter('Parteh Members: ' + slotCount + ' / ' + roleCount);
@@ -362,9 +403,9 @@ var person = parts[2];
 	}
 	else{
 		message.channel.send('NOOOOOoooooooooOOOOOOO\nDo you really want to disband the parteh!?\n(type y if yes.)');
-		const collector = new MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 5000 });
+		const collector = new MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 8000 });
         collector.on('collect', replyMsg => {
-            if (replyMsg.content === "y") {
+            if (replyMsg.content.toLowerCase() === "y") {
 				//info = '';
                 runName = '';
 				info = '';
@@ -387,32 +428,43 @@ var person = parts[2];
 	  message.author.send(helpMsg);
 	  message.channel.send("Psst " + message.author.toString() + "... I have secretly sent noods to you via PM muehuehuehue :japanese_goblin:");
   }
-  //else if (command === `${prefix}time`) {
-	//if (isPartyCreated == false){
-//		message.channel.send('Nothing to set time to bishhhhhhh! :grimacing:');
-//	}
-//	else if(organizer != message.author.toString()){
-		//message.channel.send('Only the organizer ' + organizer + ' can put info in the parteh of despair! muehuehuehuehuehue :japanese_goblin:');
-	//}
-	//else if (!name){
-//		message.channel.send('Set a time for the parteh bishhhhhhh! :grimacing:');
-//	}
-//	else if(!name.includes(":")){
-		//message.channel.send('Set a proper time bishhhhhhh! :grimacing:');
-	//}
-	//else{
-		//var setTime = name.split(":")
-		
-		//partehTime.setHours(setTime[0]);
-		//partehTime.setMinutes(setTime[1]);
-		//currentTime = new Date();
-		//var countHour = partehTime.getHours() - currentTime.getHours();
-		//var countMinute = partehTime.getMinutes() - currentTime.getMinutes();
-		//message.channel.send(message.author.toString() + " time is:\n" + currentTime.getMonth() + " " + currentTime.getDate() + ", " + currentTime.getYear());// + "\n" + currentTime.getHour() + ":" + currentTime.getMinutes() + ":" + currentTime.getSecond());
-		//message.channel.send(message.author.toString() + " time is:\n" + currentTime + "\n" + countHour + "hours and " + countMinute + " minutes to go.");//
-		//message.channel.send(message.author.toString() + " time is:\n" + currentTime + "\ngetTimeZoneOffset Value: " + currentTime.getTimezoneOffset());
-	//}
-  //}
+  else if (command === `${prefix}time`) {
+	if (isPartyCreated == false){
+		message.channel.send('Nothing to set time to bishhhhhhh! :grimacing:');
+	}
+	else if(organizer != message.author.toString()){
+		message.channel.send('Only the organizer ' + organizer + ' can set the time of despair! muehuehuehuehuehue :japanese_goblin:');
+	}
+	else if (!name){
+		message.channel.send('Set a time for the parteh bishhhhhhh! :grimacing:');
+	}
+	else if(!name.includes(":") || name.length !== 5){
+		message.channel.send('Set a proper time bishhhhhhh! :grimacing:\n```usage: !time hh:mm```');
+	}
+	else{
+		setTime = name.split(":");
+		if(isNaN(parseInt(setTime[0])) || isNaN(parseInt(setTime[1]))){
+			message.channel.send('Set a proper time bishhhhhhh! :grimacing:\n```correct usage: !time hh:mm```');
+		}
+		else{
+			var currentTime = new Date();
+			partehTime = new Date();
+			partehTime.setHours(parseInt(setTime[0],10));
+			partehTime.setMinutes(parseInt(setTime[1],10));
+			message.channel.send(":white_check_mark: Countdown to total despair has been set muehuehuehuehue :japanese_goblin:\nParteh time: " + partehTime);
+			
+			partehTime.setMinutes(parseInt(setTime[1],10) - partehTime.getTimezoneOffset());
+			currentTime.setMinutes(currentTime.getMinutes() - currentTime.getTimezoneOffset());
+			//if(partehTime < currentTime){
+			partehTime.setDate(partehTime.getDate() + (partehTime < currentTime));
+				//partehTime.setDate(partehTime.getDate() + 1);
+			//}
+			var diffTime = (partehTime - currentTime) / 60000;
+			var partehHour = Math.trunc(diffTime / 60);
+			var partehMinute = diffTime % 60;
+		}
+	}
+  }
 });
 
 // Log our bot in using the token from https://discordapp.com/developers/applications/me
