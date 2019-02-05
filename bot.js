@@ -407,6 +407,7 @@ var person = parts[2];
         collector.on('collect', replyMsg => {
             if (replyMsg.content.toLowerCase() === "y") {
 				//info = '';
+				partehTime = '';
                 runName = '';
 				info = '';
 				roleCount = 0;
