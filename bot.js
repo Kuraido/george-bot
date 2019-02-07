@@ -65,7 +65,7 @@ var person = parts[2];
 		else if(name === 'wave'){
 			runName = 'Wave Challenge'
 		}
-		else if(!name){//typeof name === 'undefined'){
+		else if(!name){
 			message.channel.send('Name ze run bishhhhhhhhhh! :grimacing:\n```correct usage: !create [name of parteh]```');
 			isPartyCreated = false;
 		}
@@ -83,14 +83,10 @@ var person = parts[2];
 			// Read more about all that you can do with the constructor
 			// over at https://discord.js.org/#/docs/main/stable/class/RichEmbed
 			const embed = new RichEmbed()
-			  // Set the title of the field
 			  .setTitle("Strange Despair's " + runName)
-			  // Set the color of the embed
 			  .setColor(0xFF0000)
-			  // Set the main content of the embed
 			  .setDescription(orgMsg + partyRosterString + "\n")
 			  .setFooter('Parteh Members: ' + slotCount + ' / ' + roleCount);
-			// Send the embed to the same channel as the message
 			message.channel.send(embed);
 		}
 	}
@@ -107,14 +103,20 @@ var person = parts[2];
 	}
 	else{
 		role[roleCount]=name.toLowerCase();
-		if(role[roleCount] === 'sniper' || role[roleCount] === 'snip'){
-			role[roleCount] = 'sniper';
-		}
-		else if(role[roleCount] === 'bio' || role[roleCount] === 'creator'){
+		if(role[roleCount] === 'bio' || role[roleCount] === 'creator'){
 			role[roleCount] = 'bio';
 		}
 		else if(role[roleCount] === 'champ' || role[roleCount] === 'champion'){
 			role[roleCount] = 'champ';
+		}
+		else if(role[roleCount] === 'clown' || role[roleCount] === 'bard'){
+			role[roleCount] = 'clown';
+		}
+		else if(role[roleCount] === 'gs' || role[roleCount] === 'gunslinger' || role[roleCount] === 'slinger'){
+			role[roleCount] = 'gs';
+		}
+		else if(role[roleCount] === 'gypsy' || role[roleCount] === 'dancer'){
+			role[roleCount] = 'gypsy';
 		}
 		else if(role[roleCount] === 'hp' || role[roleCount] === 'priest'){
 			role[roleCount] = 'hp';
@@ -131,8 +133,23 @@ var person = parts[2];
 		else if(role[roleCount] === 'prof' || role[roleCount] === 'professor'){
 			role[roleCount] = 'prof';
 		}
+		else if(role[roleCount] === 'sg' || role[roleCount] === 'starglad'){
+			role[roleCount] = 'sg';
+		}
 		else if(role[roleCount] === 'sinx' || role[roleCount] === 'assassin'){
 			role[roleCount] = 'sinx';
+		}
+		else if(role[roleCount] === 'sl' || role[roleCount] === 'linker'){
+			role[roleCount] = 'sl';
+		}
+		else if(role[roleCount] === 'sniper' || role[roleCount] === 'snipe' || role[roleCount] === 'snip'){
+			role[roleCount] = 'sniper';
+		}
+		else if(role[roleCount] === 'stalker' || role[roleCount] === 'stalk'){
+			role[roleCount] = 'stalker';
+		}
+		else if(role[roleCount] === 'tk' || role[roleCount] === 'taekwon'){
+			role[roleCount] = 'tk';
 		}
 		else if(role[roleCount] === 'ws' || role[roleCount] === 'whitesmith'){
 			role[roleCount] = 'ws';
@@ -344,6 +361,15 @@ var person = parts[2];
 				else if(role[x]==='champ'){
 					partyRosterString = partyRosterString.concat(":punch: Champ: " + hueman[x] + note[x] + "\n");
 				}
+				else if(role[x]==='clown'){
+					partyRosterString = partyRosterString.concat(":guitar: Clown: " + hueman[x] + note[x] + "\n");
+				}
+				else if(role[x]==='gs'){
+					partyRosterString = partyRosterString.concat(":gun: GS: " + hueman[x] + note[x] + "\n");
+				}
+				else if(role[x]==='gypsy'){
+					partyRosterString = partyRosterString.concat(":bikini: Gypsy: " + hueman[x] + note[x] + "\n");
+				}
 				else if(role[x]==='hp'){
 					partyRosterString = partyRosterString.concat(":syringe: HP: " + hueman[x] + note[x] + "\n");
 				}
@@ -359,11 +385,23 @@ var person = parts[2];
 				else if(role[x]==='prof'){
 					partyRosterString = partyRosterString.concat(":book: Prof: " + hueman[x] + note[x] + "\n");
 				}
+				else if(role[x]==='sg'){
+					partyRosterString = partyRosterString.concat(":star: SG: " + hueman[x] + note[x] + "\n");
+				}
 				else if(role[x]==='sinx'){
 					partyRosterString = partyRosterString.concat(":knife: SinX: " + hueman[x] + note[x] + "\n");
 				}
+				else if(role[x]==='sl'){
+					partyRosterString = partyRosterString.concat(":link: SL: " + hueman[x] + note[x] + "\n");
+				}
 				else if(role[x]==='sniper'){
 					partyRosterString = partyRosterString.concat(":bow_and_arrow: Sniper: " + hueman[x] + note[x] + "\n");
+				}
+				else if(role[x]==='stalker'){
+					partyRosterString = partyRosterString.concat(":spy: Stalker: " + hueman[x] + note[x] + "\n");
+				}
+				else if(role[x]==='tk'){
+					partyRosterString = partyRosterString.concat(":martial_arts_uniform: TK: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='ws'){
 					partyRosterString = partyRosterString.concat(":hammer: WS: " + hueman[x] + note[x] + "\n");
@@ -470,4 +508,3 @@ var person = parts[2];
 
 // Log our bot in using the token from https://discordapp.com/developers/applications/me
 client.login(process.env.BOT_TOKEN);
-//client.login(botSetting.token);
