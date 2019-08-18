@@ -118,7 +118,7 @@ var person = parts[2];
 			role[roleCount] = 'clown';
 		}
 		else if(role[roleCount] === 'flex' || role[roleCount] === 'flexible' || role[roleCount] === 'any'){
-			role[roleCount] = 'any';
+			role[roleCount] = 'flexible';
 		}
 		else if(role[roleCount] === 'gs' || role[roleCount] === 'gunslinger' || role[roleCount] === 'slinger'){
 			role[roleCount] = 'gs';
@@ -411,11 +411,11 @@ var person = parts[2];
 	partyRosterString = '';
 	for(var x = 0; x<12; x++){
 		if(!hueman[x]){
-			partyRosterString = partyRosterString.concat(':free: (Free)\n');
+			partyRosterString = partyRosterString.concat(hueman[x] + ' ');
 		}
 	}
 	if(partyRosterString.length > 0){
-		message.channel.send(":white_check_mark: I activate my spell card to special summon " + partyRosterString + " in attack position!");
+		message.channel.send(":white_check_mark: I activate my spell card to special summon " + partyRosterString + "in attack position!");
 	}
 	else{
 		message.channel.send("There's no huemans in the party roster bissssssssshhhhhh!! :grimacing:" + \n + );
@@ -441,7 +441,7 @@ var person = parts[2];
 				else if(role[x]==='clown'){
 					partyRosterString = partyRosterString.concat(":guitar: Clown: " + hueman[x] + note[x] + "\n");
 				}
-				else if(role[x]==='flex'){
+				else if(role[x]==='flexible'){
 					partyRosterString = partyRosterString.concat(":star: Flexible: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='gs'){
