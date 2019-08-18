@@ -1,7 +1,3 @@
-/**
- * An example of how you can send embeds
- */
-
 // Extract the required classes from the discord.js module
 const { Discord, MessageCollector, Client, RichEmbed } = require('discord.js');
 const botSetting = require("./auth.json")
@@ -26,8 +22,10 @@ let note = ['', '', '', '', '', '', '', '', '', '', '', ''];
 let partyRosterString = '';
 let roleCount = 0;
 let slotCount = 0;
+let waitReply = false;
 let isPartyCreated = false;
 let isRoleAvailable = false;
+let personName;
 let ditchSlot;
 
 
@@ -65,7 +63,7 @@ var person = parts[2];
 		else if(name === 'wave'){
 			runName = 'Wave Challenge'
 		}
-		else if(!name){
+		else if(!name){//typeof name === 'undefined'){
 			message.channel.send('Name ze run bishhhhhhhhhh! :grimacing:\n```correct usage: !create [name of parteh]```');
 			isPartyCreated = false;
 		}
@@ -83,10 +81,14 @@ var person = parts[2];
 			// Read more about all that you can do with the constructor
 			// over at https://discord.js.org/#/docs/main/stable/class/RichEmbed
 			const embed = new RichEmbed()
+			  // Set the title of the field
 			  .setTitle("Strange Despair's " + runName)
+			  // Set the color of the embed
 			  .setColor(0xFF0000)
+			  // Set the main content of the embed
 			  .setDescription(orgMsg + partyRosterString + "\n")
 			  .setFooter('Parteh Members: ' + slotCount + ' / ' + roleCount);
+			// Send the embed to the same channel as the message
 			message.channel.send(embed);
 		}
 	}
@@ -234,13 +236,14 @@ var person = parts[2];
 		message.channel.send("Party roster is full bish bishhhhhhh! :grimacing:");
 	}
 	else{
-		if(hueman.includes(person) === false){
+		personName = content.slice(command.length + name.length + 2);
+		if(hueman.includes(personName) === false){
 			if(hueman[role.lastIndexOf(name.toLowerCase())] == ''){
 			}
 			for(var x = 0; x<roleCount; x++){
 				if(role[x].toLowerCase() === name.toLowerCase() && hueman[x] === ''){
 					//console.log('Before: ' + hueman.indexOf(message.author.toString()));
-					hueman[x] = person;
+					hueman[x] = personName;
 					//console.log('After: ' + hueman.indexOf(message.author.toString()));
 					slotCount++;
 					isRoleAvailable = true;
@@ -270,16 +273,20 @@ var person = parts[2];
 		}
 		else{
 			message.channel.send('NOOOOOoooooooooOOOOOOO\nDo you really want to ditch us!?\n(type y if yes.)');
+			waitReply = true;
 			const collector = new MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 8000 });
 			collector.on('collect', replyMsg => {
-				if (replyMsg.content.toLowerCase() === "y") {
-					note[hueman.indexOf(message.author.toString())] = '';
-					hueman[hueman.indexOf(message.author.toString())] = '';
-					slotCount--;
-					message.channel.send(":negative_squared_cross_mark: A shameless person has ditched the parteh. :grimacing:");
-				}
-				else{
-					message.channel.send("I'll take that as a NO then. :kissing:");
+				if (waitReply === true){
+					waitReply = false;
+					if (replyMsg.content.toLowerCase() === "y") {
+						note[hueman.indexOf(message.author.toString())] = '';
+						hueman[hueman.indexOf(message.author.toString())] = '';
+						slotCount--;
+						message.channel.send(":negative_squared_cross_mark: A shameless person has ditched the parteh. :grimacing:");
+					}
+					else{
+						message.channel.send("I'll take that as a NO then. :kissing:");
+					}
 				}
 			})
 		}
@@ -307,20 +314,21 @@ var person = parts[2];
 	}
   }
   else if (command === `${prefix}kick`) {
+	personName = content.slice(command.length + 1);
 	if (isPartyCreated == false){
 		message.channel.send("There's no parteh yet bishhhhhhh! :grimacing:");
 	}
 	else if(!name){
 		message.channel.send("Input a name bishhhhhhh! :grimacing:\n```correct usage: !kick [name of person]```");
 	}
-	else if(!hueman.includes(name)){
+	else if(!hueman.includes(personName)){
 		message.channel.send(name + " is not even in the parteh bishhhhhhh! :grimacing:");
 	}
 	else{
 		note[hueman.indexOf(name)] = '';
 		hueman[hueman.indexOf(name)] = '';
 		slotCount--;
-		message.channel.send(":negative_squared_cross_mark: "+name+" has been shamelessly kicked hard out of the parteh muehuehuehuehue :japanese_goblin:");
+		message.channel.send(":negative_squared_cross_mark: "+personName+" has been shamelessly kicked hard out of the parteh muehuehuehuehue :japanese_goblin:");
 	}
   }
   else if (command === `${prefix}info`) {
@@ -441,24 +449,28 @@ var person = parts[2];
 	}
 	else{
 		message.channel.send('NOOOOOoooooooooOOOOOOO\nDo you really want to disband the parteh!?\n(type y if yes.)');
+		waitReply = true;
 		const collector = new MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 8000 });
         collector.on('collect', replyMsg => {
-            if (replyMsg.content.toLowerCase() === "y") {
-				//info = '';
-				partehTime = '';
-                runName = '';
-				info = '';
-				roleCount = 0;
-				slotCount = 0;
-				isPartyCreated = false;
-				hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
-				role = ['', '', '', '', '', '', '', '', '', '', '', ''];
-				note = ['', '', '', '', '', '', '', '', '', '', '', ''];
-				message.channel.send(":negative_squared_cross_mark: The parteh has now been devoured deep within the abyssal void. :grimacing:");
-            }
-			else{
-                message.channel.send("I'll take that as a NO then. :kissing:");
-            }
+			if (waitReply === true){
+				waitReply = false;
+				if (replyMsg.content.toLowerCase() === "y") {
+					//info = '';
+					partehTime = '';
+					runName = '';
+					info = '';
+					roleCount = 0;
+					slotCount = 0;
+					isPartyCreated = false;
+					hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
+					role = ['', '', '', '', '', '', '', '', '', '', '', ''];
+					note = ['', '', '', '', '', '', '', '', '', '', '', ''];
+					message.channel.send(":negative_squared_cross_mark: The parteh has now been devoured deep within the abyssal void. :grimacing:");
+				}
+				else{
+					message.channel.send("I'll take that as a NO then. :kissing:");
+				}
+			}
 		})
 	}
   }
