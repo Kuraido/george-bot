@@ -63,6 +63,9 @@ var person = parts[2];
 		else if(name === 'wave'){
 			runName = 'Wave Challenge'
 		}
+		else if(name === 'garden'){
+			runName = 'Elysian Garden'
+		}
 		else if(!name){//typeof name === 'undefined'){
 			message.channel.send('Name ze run bishhhhhhhhhh! :grimacing:\n```correct usage: !create [name of parteh]```');
 			isPartyCreated = false;
@@ -113,6 +116,9 @@ var person = parts[2];
 		}
 		else if(role[roleCount] === 'clown' || role[roleCount] === 'bard'){
 			role[roleCount] = 'clown';
+		}
+		else if(role[roleCount] === 'flex' || role[roleCount] === 'flexible' || role[roleCount] === 'any'){
+			role[roleCount] = 'any';
 		}
 		else if(role[roleCount] === 'gs' || role[roleCount] === 'gunslinger' || role[roleCount] === 'slinger'){
 			role[roleCount] = 'gs';
@@ -322,7 +328,7 @@ var person = parts[2];
 		message.channel.send("Input a name bishhhhhhh! :grimacing:\n```correct usage: !kick [name of person]```");
 	}
 	else if(!hueman.includes(personName)){
-		message.channel.send(name + " is not even in the parteh bishhhhhhh! :grimacing:");
+		message.channel.send(personName + " is not even in the parteh bishhhhhhh! :grimacing:");
 	}
 	else{
 		note[hueman.indexOf(name)] = '';
@@ -352,6 +358,69 @@ var person = parts[2];
 		message.channel.send(":white_check_mark: Additional information for the parteh has been shamelessly added muehuehuehuehue :japanese_goblin:");
 	}
   }
+  else if (command === `${prefix}party`) {
+	if(organizer != message.author.toString()){
+		message.channel.send('Only the organizer ' + organizer + ' can use this command of despair! muehuehuehuehuehue :japanese_goblin:');
+	}
+	if (name == 'default'){
+		roleCount = 8;
+		slotCount = 0;
+		hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
+		role = ['champ', 'pally', 'hw', 'hp', 'hp', 'sniper', 'bio', 'flex', 'flex', 'flex', 'flex', 'flex'];
+		note = ['', '', '', '', '', '', '', '', '', '', '', ''];
+		message.channel.send(":white_check_mark: George has setup the party roster cuz " + organizer + " is too lazeh :japanese_goblin:");
+		const embed = new RichEmbed()
+		  .setTitle("Strange Despair's " + runName + " " + timeMsg)
+		  .setColor(0xFF0000)
+		  .setDescription(orgMsg + partyRosterString + "\n" + info)
+		  .setFooter('Parteh Members: ' + slotCount + ' / ' + roleCount);
+		message.channel.send(embed);
+	}
+	else if (name == 'wipe'){
+		message.channel.send('NOOOOOoooooooooOOOOOOO\nDo you really want to wipe the parteh roster!?\n(type y if yes.)');
+		waitReply = true;
+		const collector = new MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 8000 });
+        collector.on('collect', replyMsg => {
+			if (waitReply === true){
+				waitReply = false;
+				if (replyMsg.content.toLowerCase() === "y") {
+					roleCount = 0;
+					slotCount = 0;
+					hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
+					role = ['', '', '', '', '', '', '', '', '', '', '', ''];
+					note = ['', '', '', '', '', '', '', '', '', '', '', ''];
+					message.channel.send(":negative_squared_cross_mark: The parteh roster has now been wiped clean. :grimacing:");
+					const embed = new RichEmbed()
+					  .setTitle("Strange Despair's " + runName + " " + timeMsg)
+					  .setColor(0xFF0000)
+					  .setDescription(orgMsg + partyRosterString + "\n" + info)
+					  .setFooter('Parteh Members: ' + slotCount + ' / ' + roleCount);
+					message.channel.send(embed);
+				}
+				else{
+					message.channel.send("I'll take that as a NO then. :kissing:");
+				}
+			}
+		})
+	}
+	else{
+		message.channel.send("Wrong command bishhhhhhh! :grimacing:\n```correct usage: !party default\n!party wipe```");
+	}
+  }
+  else if (command === `${prefix}poke` || command === `${prefix}summon` || command === `${prefix}tag`) {
+	partyRosterString = '';
+	for(var x = 0; x<12; x++){
+		if(!hueman[x]){
+			partyRosterString = partyRosterString.concat(':free: (Free)\n');
+		}
+	}
+	if(partyRosterString.length > 0){
+		message.channel.send(":white_check_mark: I activate my spell card to special summon " + partyRosterString + " in attack position!");
+	}
+	else{
+		message.channel.send("There's no huemans in the party roster bissssssssshhhhhh!! :grimacing:" + \n + );
+	}
+  }
   else if (command === `${prefix}view`) {
 	if (isPartyCreated == false){
 		message.channel.send('Nothing to view bishhhhhhh! :grimacing:');
@@ -371,6 +440,9 @@ var person = parts[2];
 				}
 				else if(role[x]==='clown'){
 					partyRosterString = partyRosterString.concat(":guitar: Clown: " + hueman[x] + note[x] + "\n");
+				}
+				else if(role[x]==='flex'){
+					partyRosterString = partyRosterString.concat(":star: Flexible: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='gs'){
 					partyRosterString = partyRosterString.concat(":gun: GS: " + hueman[x] + note[x] + "\n");
