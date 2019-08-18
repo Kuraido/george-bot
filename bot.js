@@ -42,7 +42,7 @@ client.on('message', async message => {
 
 var content = message.content;
 var parts = content.split(" ");
-var command = parts[0];
+var command = parts[0].toLowerCase();
 var name = parts[1];
 var person = parts[2];
 	if(message.channel.type === "dm") return;
