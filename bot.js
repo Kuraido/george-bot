@@ -408,17 +408,22 @@ var person = parts[2];
 	}
   }
   else if (command === `${prefix}poke` || command === `${prefix}summon` || command === `${prefix}tag`) {
-	partyRosterString = '';
-	for(var x = 0; x<12; x++){
-		if(!hueman[x]){
-			partyRosterString = partyRosterString.concat(hueman[x] + ' ');
-		}
-	}
-	if(partyRosterString.length > 0){
-		message.channel.send(":white_check_mark: I activate my spell card to special summon " + partyRosterString + "in attack position!");
+	if(isPartyCreated === false){
+		message.channel.send("There's no party roster yet bishhhhhhh!! :grimacing:");
 	}
 	else{
-		message.channel.send("There's no huemans in the party roster bissssssssshhhhhh!! :grimacing:" + \n + );
+		partyRosterString = '';
+		for(var x = 0; x<12; x++){
+			if(hueman[x].length > 0){
+				partyRosterString = partyRosterString.concat(hueman[x] + ' ');
+			}
+		}
+		if(partyRosterString.length > 0){
+			message.channel.send(":white_check_mark: I activate my spell card to special summon " + partyRosterString + "in attack position!");
+		}
+		else{
+			message.channel.send("There's no huemans in the party roster bishhhhhhh!! :grimacing:");
+		}
 	}
   }
   else if (command === `${prefix}view`) {
