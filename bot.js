@@ -110,7 +110,7 @@ var person = parts[2];
 			role[roleCount] = 'clown';
 		}
 		else if(role[roleCount] === 'flex' || role[roleCount] === 'flexible' || role[roleCount] === 'any'){
-			role[roleCount] = 'flexible';
+			role[roleCount] = 'flex';
 		}
 		else if(role[roleCount] === 'gs' || role[roleCount] === 'gunslinger' || role[roleCount] === 'slinger'){
 			role[roleCount] = 'gs';
@@ -352,7 +352,7 @@ var person = parts[2];
 		roleCount = 12;
 		slotCount = 0;
 		hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
-		role = ['champ', 'pally', 'hw', 'hp', 'hp', 'sniper', 'bio', 'flex', 'flex', 'flex', 'flex', 'flex'];
+		role = ['champ', 'pally', 'hw', 'hp', 'hp', 'sniper', 'sniper', 'bio', 'flex', 'flex', 'flex', 'flex'];
 		note = ['', '', '', '', '', '', '', '', '', '', '', ''];
 		message.channel.send(":white_check_mark: George has setup the party roster cuz " + organizer + " is too lazeh :japanese_goblin:");
 		for(var x = 0; x < 12; x++){
@@ -370,7 +370,7 @@ var person = parts[2];
 					partyRosterString = partyRosterString.concat(":guitar: Clown: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='flex'){
-					partyRosterString = partyRosterString.concat(":star: Flexible: " + hueman[x] + note[x] + "\n");
+					partyRosterString = partyRosterString.concat(":star: Flex: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='gs'){
 					partyRosterString = partyRosterString.concat(":gun: GS: " + hueman[x] + note[x] + "\n");
@@ -510,7 +510,7 @@ var person = parts[2];
 					partyRosterString = partyRosterString.concat(":guitar: Clown: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='flex'){
-					partyRosterString = partyRosterString.concat(":star: Flexible: " + hueman[x] + note[x] + "\n");
+					partyRosterString = partyRosterString.concat(":star: Flex: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='gs'){
 					partyRosterString = partyRosterString.concat(":gun: GS: " + hueman[x] + note[x] + "\n");
