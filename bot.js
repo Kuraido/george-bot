@@ -369,7 +369,7 @@ var person = parts[2];
 				else if(role[x]==='clown'){
 					partyRosterString = partyRosterString.concat(":guitar: Clown: " + hueman[x] + note[x] + "\n");
 				}
-				else if(role[x]==='flexible'){
+				else if(role[x]==='flex'){
 					partyRosterString = partyRosterString.concat(":star: Flexible: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='gs'){
