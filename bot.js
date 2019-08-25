@@ -121,7 +121,7 @@ var person = parts[2];
 		else if(role[roleCount] === 'hp' || role[roleCount] === 'priest'){
 			role[roleCount] = 'hp';
 		}
-		else if(role[roleCount] === 'hw' || role[roleCount] === 'wiz' || role[roleCount] === 'wizard'){
+		else if(role[roleCount] === 'hw' || role[roleCount] === 'hwiz' || role[roleCount] === 'wiz' || role[roleCount] === 'wizard'){
 			role[roleCount] = 'hw';
 		}
 		else if(role[roleCount] === 'lk' || role[roleCount] === 'knight'){
