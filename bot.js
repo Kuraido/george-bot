@@ -182,7 +182,6 @@ var person = parts[2];
 	}
 	else{
 		role[hueman.lastIndexOf(personName)]=name.toLowerCase();
-		message.channel.send("TEST MESSAGE: Slot number " + hueman.lastIndexOf(personName) + " Role to set is " + role[hueman.lastIndexOf(personName)].toUpperCase() + ".");
 		if(role[hueman.lastIndexOf(personName)] === 'bio' || role[hueman.lastIndexOf(personName)] === 'creator'){
 			role[hueman.lastIndexOf(personName)] = 'bio';
 		}
