@@ -314,6 +314,9 @@ var person = parts[2];
 	}
 	else{
 		personName = content.slice(command.length + name.length + 2);
+		if (personName.includes("<@!")){
+			personName = personName.replace(/<@!/g,"<@");
+		}
 		if(hueman.includes(personName) === false){
 			if(hueman[role.lastIndexOf(name.toLowerCase())] == ''){
 			}
@@ -387,6 +390,9 @@ var person = parts[2];
   }
   else if (command === `${prefix}kick`) {
 	personName = content.slice(command.length + 1);
+	if (personName.includes("<@!")){
+		personName = name.replace(/<@!/g,"<@");
+	}
 	if (isPartyCreated == false){
 		message.channel.send("There's no parteh yet bishhhhhhh! :grimacing:");
 	}
