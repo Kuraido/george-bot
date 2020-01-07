@@ -171,6 +171,9 @@ var person = parts[2];
 	else{
 		personName = content.slice(command.length + name.length + 2);
 	}
+	 if (personName.includes("<@!")){
+		personName = personName.replace(/<@!/g,"<@");
+	}
 	if (isPartyCreated == false){
 		message.channel.send("There's no parteh yet bishhhhhhh! :grimacing:");
 	}
@@ -263,6 +266,8 @@ var person = parts[2];
 		}
 		hueman.splice(role.lastIndexOf(name.toLowerCase()), 1);
 		hueman[11] = '';
+		note.splice(role.lastIndexOf(name.toLowerCase()), 1);
+		note[11] = '';
 		role.splice(role.lastIndexOf(name.toLowerCase()), 1);
 		roleCount--;
 		role[11] = '';
