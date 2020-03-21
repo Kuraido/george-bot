@@ -761,6 +761,8 @@ var person = parts[2];
 			var partehMinute = diffTime % 60;
 		}
 	}
+  } else if (command.startsWith(prefix)) {
+    message.channel.send("Bishhhhhhhh! Wat da heck is dat command!? :japanese_goblin:\n```Type !help for command list```");
   }
 });
 
