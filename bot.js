@@ -737,13 +737,13 @@ var person = parts[2];
 		else{
 			var currentTime = new Date();
 			partehTime = new Date();
-			partehTime.setHours(parseInt(setTime[0], 10) + 1);
+			partehTime.setHours(parseInt(setTime[0], 10));
 			partehTime.setMinutes(parseInt(setTime[1], 10));
 			timeMsg = (partehTime.getMonth() + 1) + "/" + partehTime.getDate() + "/" + partehTime.getFullYear() + " "
 			if(partehTime.getHours()<9){
 			  timeMsg = timeMsg + "0"
 			}
-			timeMsg = timeMsg + (partehTime.getHours() - 1) + ":"
+			timeMsg = timeMsg + (partehTime.getHours()) + ":"
 			if(partehTime.getMinutes()<10){
 			  timeMsg = timeMsg + "0"
 			}
@@ -753,7 +753,7 @@ var person = parts[2];
 			    timeMsg
 			);
 
-			partehTime.setMinutes(parseInt(setTime[1], 10) - partehTime.getTimezoneOffset() - 120);
+			partehTime.setMinutes(parseInt(setTime[1], 10) - partehTime.getTimezoneOffset());
 			currentTime.setMinutes(currentTime.getMinutes() - currentTime.getTimezoneOffset());
 			partehTime.setDate(partehTime.getDate() + (partehTime < currentTime));
 			var diffTime = (partehTime - currentTime) / 60000;
