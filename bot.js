@@ -747,7 +747,7 @@ var person = parts[2];
 			if(partehTime.getMinutes()<10){
 			  timeMsg = timeMsg + "0"
 			}
-			timeMsg = timeMsg + partehTime.getMinutes() + " tRO Server Time"
+			timeMsg = timeMsg + partehTime.getMinutes() + " GMT+0"
 			message.channel.send(
 			  ":white_check_mark: Countdown to total despair has been set muehuehuehuehue :japanese_goblin:\nParteh time: " +
 			    timeMsg
