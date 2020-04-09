@@ -96,7 +96,7 @@ var person = parts[2];
 		message.channel.send("Input the role you want to add bishhhhhhh! :grimacing:\n```correct usage: !add [name of role]```");
 	}
 	else if(roleCount >= 12){
-		message.channel.send("Party roster is full bish bishhhhhhh! :grimacing:");
+		message.channel.send("Party roster is full bishhhhhhh! :grimacing:");
 	}
 	else{
 		role[roleCount]=name.toLowerCase();
@@ -278,7 +278,7 @@ var person = parts[2];
 		message.channel.send('Nothing to join to bishhhhhhh! :grimacing:');
 	}
 	else if(slotCount >= roleCount){
-		message.channel.send("Party roster is full bish bishhhhhhh! :grimacing:");
+		message.channel.send("Party roster is full bishhhhhhh! :grimacing:");
 	}
 	else if(hueman.includes(message.author.toString()) == true){
 		message.channel.send('You already joined bishhhhhhh! :grimacing:');
@@ -315,7 +315,7 @@ var person = parts[2];
 		message.channel.send('Input the name of the hueman you want to invite bishhhhhhh! :grimacing:\n```correct usage: !invite [name of role] [name of person]```');
 	}
 	else if(slotCount >= roleCount){
-		message.channel.send("Party roster is full bish bishhhhhhh! :grimacing:");
+		message.channel.send("Party roster is full bishhhhhhh! :grimacing:");
 	}
 	else{
 		personName = content.slice(command.length + name.length + 2);
@@ -468,7 +468,7 @@ var person = parts[2];
 					partyRosterString = partyRosterString.concat(":gun: GS: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='gypsy'){
-					partyRosterString = partyRosterString.concat(":bikini: Gypsy: " + hueman[x] + note[x] + "\n");
+					partyRosterString = partyRosterString.concat(":dancer: Gypsy: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='hp'){
 					partyRosterString = partyRosterString.concat(":syringe: HP: " + hueman[x] + note[x] + "\n");
@@ -611,7 +611,7 @@ var person = parts[2];
 					partyRosterString = partyRosterString.concat(":gun: GS: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='gypsy'){
-					partyRosterString = partyRosterString.concat(":bikini: Gypsy: " + hueman[x] + note[x] + "\n");
+					partyRosterString = partyRosterString.concat(":dancer: Gypsy: " + hueman[x] + note[x] + "\n");
 				}
 				else if(role[x]==='hp'){
 					partyRosterString = partyRosterString.concat(":syringe: HP: " + hueman[x] + note[x] + "\n");
@@ -737,17 +737,17 @@ var person = parts[2];
 		else{
 			var currentTime = new Date();
 			partehTime = new Date();
-			partehTime.setHours(parseInt(setTime[0], 10));
+			partehTime.setHours(parseInt(setTime[0], 10)-2);
 			partehTime.setMinutes(parseInt(setTime[1], 10));
 			timeMsg = (partehTime.getMonth() + 1) + "/" + partehTime.getDate() + "/" + partehTime.getFullYear() + " "
 			if(partehTime.getHours()<9){
 			  timeMsg = timeMsg + "0"
 			}
-			timeMsg = timeMsg + (partehTime.getHours()) + ":"
+			timeMsg = timeMsg + (partehTime.getHours()+2) + ":"
 			if(partehTime.getMinutes()<10){
 			  timeMsg = timeMsg + "0"
 			}
-			timeMsg = timeMsg + partehTime.getMinutes() + " GMT+0"
+			timeMsg = timeMsg + partehTime.getMinutes() + " GMT+2 (tRO Server Time)"
 			message.channel.send(
 			  ":white_check_mark: Countdown to total despair has been set muehuehuehuehue :japanese_goblin:\nParteh time: " +
 			    timeMsg
