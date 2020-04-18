@@ -15,9 +15,21 @@ let info = '';
 let setTime;
 let partehTime;
 let organizer;
-let hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
-let role = ['', '', '', '', '', '', '', '', '', '', '', ''];
-let note = ['', '', '', '', '', '', '', '', '', '', '', ''];
+let slot = [{hueman:'', role:'', note:'', index:20},
+{hueman:'', role:'', note:'', index:20},
+{hueman:'', role:'', note:'', index:20},
+{hueman:'', role:'', note:'', index:20},
+{hueman:'', role:'', note:'', index:20},
+{hueman:'', role:'', note:'', index:20},
+{hueman:'', role:'', note:'', index:20},
+{hueman:'', role:'', note:'', index:20},
+{hueman:'', role:'', note:'', index:20},
+{hueman:'', role:'', note:'', index:20},
+{hueman:'', role:'', note:'', index:20},
+{hueman:'', role:'', note:'', index:20}];
+let job;
+let jobIndex;
+let tempSlot;
 let partyRosterString = '';
 let roleCount = 0;
 let slotCount = 0;
@@ -25,7 +37,6 @@ let waitReply = false;
 let isPartyCreated = false;
 let isRoleAvailable = false;
 let personName;
-let ditchSlot;
 
 
 
@@ -55,6 +66,9 @@ var person = parts[2];
 		isPartyCreated = true;
 		if (name === 'et'){
 			runName = 'Endless Tower'
+		}
+		else if(name === 'at'){
+			runName = 'Ancient Tower'
 		}
 		else if(name === 'gmc'){
 			runName = 'Game Master Challenge'
@@ -99,68 +113,91 @@ var person = parts[2];
 		message.channel.send("Party roster is full bishhhhhhh! :grimacing:");
 	}
 	else{
-		role[roleCount]=name.toLowerCase();
-		if(role[roleCount] === 'bio' || role[roleCount] === 'creator'){
-			role[roleCount] = 'bio';
+		job = name.toLowerCase();
+		if(job === 'bio' || job === 'creator'){
+			slot[roleCount].role = 'bio';
+			slot[roleCount].index = 12;
 		}
-		else if(role[roleCount] === 'champ' || role[roleCount] === 'champion'){
-			role[roleCount] = 'champ';
+		else if(job === 'champ' || job === 'champion'){
+			slot[roleCount].role = 'champ';
+			slot[roleCount].index = 0;
 		}
-		else if(role[roleCount] === 'clown' || role[roleCount] === 'bard'){
-			role[roleCount] = 'clown';
+		else if(job === 'clown' || job === 'bard'){
+			slot[roleCount].role = 'clown';
+			slot[roleCount].index = 15;
 		}
-		else if(role[roleCount] === 'flex' || role[roleCount] === 'flexible' || role[roleCount] === 'any'){
-			role[roleCount] = 'flex';
+		else if(job === 'flex' || job === 'flexible' || job === 'any'){
+			slot[roleCount].role = 'flex';
+			slot[roleCount].index = 18;
 		}
-		else if(role[roleCount] === 'gs' || role[roleCount] === 'gunslinger' || role[roleCount] === 'slinger'){
-			role[roleCount] = 'gs';
+		else if(job === 'gs' || job === 'gunslinger' || job === 'slinger'){
+			slot[roleCount].role = 'gs';
+			slot[roleCount].index = 6;
 		}
-		else if(role[roleCount] === 'gypsy' || role[roleCount] === 'dancer'){
-			role[roleCount] = 'gypsy';
+		else if(job === 'gypsy' || job === 'dancer'){
+			slot[roleCount].role = 'gypsy';
+			slot[roleCount].index = 16;
 		}
-		else if(role[roleCount] === 'hp' || role[roleCount] === 'priest'){
-			role[roleCount] = 'hp';
+		else if(job === 'hp' || job === 'priest'){
+			slot[roleCount].role = 'hp';
+			slot[roleCount].index = 2;
 		}
-		else if(role[roleCount] === 'hw' || role[roleCount] === 'hwiz' || role[roleCount] === 'wiz' || role[roleCount] === 'wizard'){
-			role[roleCount] = 'hw';
+		else if(job === 'hw' || job === 'hwiz' || job === 'wiz' || job === 'wizard'){
+			slot[roleCount].role = 'hw';
+			slot[roleCount].index = 3;
 		}
-		else if(role[roleCount] === 'lk' || role[roleCount] === 'knight'){
-			role[roleCount] = 'lk';
+		else if(job === 'lk' || job === 'knight'){
+			slot[roleCount].role = 'lk';
+			slot[roleCount].index = 7;
 		}
-		else if(role[roleCount] === 'ninja' || role[roleCount] === 'nin'){
-			role[roleCount] = 'ninja';
+		else if(job === 'ninja' || job === 'nin'){
+			slot[roleCount].role = 'ninja';
+			slot[roleCount].index = 5;
 		}
-		else if(role[roleCount] === 'pally' || role[roleCount] === 'paladin'){
-			role[roleCount] = 'pally';
+		else if(job === 'pally' || job === 'paladin'){
+			slot[roleCount].role = 'pally';
+			slot[roleCount].index = 1;
 		}
-		else if(role[roleCount] === 'prof' || role[roleCount] === 'professor'){
-			role[roleCount] = 'prof';
+		else if(job === 'prof' || job === 'professor'){
+			slot[roleCount].role = 'prof';
+			slot[roleCount].index = 13;
 		}
-		else if(role[roleCount] === 'sg' || role[roleCount] === 'starglad'){
-			role[roleCount] = 'sg';
+		else if(job === 'sg' || job === 'starglad'){
+			slot[roleCount].role = 'sg';
+			slot[roleCount].index = 10;
 		}
-		else if(role[roleCount] === 'sinx' || role[roleCount] === 'assassin'){
-			role[roleCount] = 'sinx';
+		else if(job === 'sinx' || job === 'assassin'){
+			slot[roleCount].role = 'sinx';
+			slot[roleCount].index = 8;
 		}
-		else if(role[roleCount] === 'sl' || role[roleCount] === 'linker'){
-			role[roleCount] = 'sl';
+		else if(job === 'sl' || job === 'linker'){
+			slot[roleCount].role = 'sl';
+			slot[roleCount].index = 14;
 		}
-		else if(role[roleCount] === 'sniper' || role[roleCount] === 'snipe' || role[roleCount] === 'snip'){
-			role[roleCount] = 'sniper';
+		else if(job === 'sniper' || job === 'snipe' || job === 'snip'){
+			slot[roleCount].role = 'sniper';
+			slot[roleCount].index = 4;
 		}
-		else if(role[roleCount] === 'stalker' || role[roleCount] === 'stalk'){
-			role[roleCount] = 'stalker';
+		else if(job === 'stalker' || job === 'stalk'){
+			slot[roleCount].role = 'stalker';
+			slot[roleCount].index = 9;
 		}
-		else if(role[roleCount] === 'tk' || role[roleCount] === 'taekwon'){
-			role[roleCount] = 'tk';
+		else if(job === 'tk' || job === 'taekwon'){
+			slot[roleCount].role = 'tk';
+			slot[roleCount].index = 11;
 		}
-		else if(role[roleCount] === 'ws' || role[roleCount] === 'whitesmith'){
-			role[roleCount] = 'ws';
+		else if(job === 'ws' || job === 'whitesmith'){
+			slot[roleCount].role = 'ws';
+			slot[roleCount].index = 17;
 		}
 		else{
-			role[roleCount] = name.toLowerCase();
+			slot[roleCount].role = job;
+			slot[roleCount].index = 19;
 		}
-		message.channel.send(":white_check_mark: " + role[roleCount].toUpperCase() + " role has been added to the despair list. Muehuehuehue :japanese_goblin:");
+		slot[roleCount].hueman = '';
+		slot[roleCount].note = '';
+		message.channel.send(":white_check_mark: " + slot[roleCount].role.toUpperCase() + " role has been added to the despair list. Muehuehuehue :japanese_goblin:");
+		slot.sort(function(a, b){return a.index-b.index});
 		roleCount++;
 	}
   }
@@ -180,69 +217,137 @@ var person = parts[2];
 	else if(!name){
 		message.channel.send('Input the role you want to change to bishhhhhhh! :grimacing:\n```correct usage: !change [name of role] [name of person]```');
 	}
-	else if(!hueman.includes(personName)){
+	//else if(!hueman.includes(personName)){
+	else if(!slot.some(e => e.hueman === personName)){
 		message.channel.send(personName + " is not even in the parteh bishhhhhhh! :grimacing:");
 	}
 	else{
-		role[hueman.lastIndexOf(personName)]=name.toLowerCase();
-		if(role[hueman.lastIndexOf(personName)] === 'bio' || role[hueman.lastIndexOf(personName)] === 'creator'){
-			role[hueman.lastIndexOf(personName)] = 'bio';
+		job = name.toLowerCase();
+		if(job === 'bio' || job === 'creator'){
+			job = 'bio';
+			jobIndex = 12;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'champ' || role[hueman.lastIndexOf(personName)] === 'champion'){
-			role[hueman.lastIndexOf(personName)] = 'champ';
+		else if(job === 'champ' || job === 'champion'){
+			job = 'champ';
+			jobIndex = 0;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'clown' || role[hueman.lastIndexOf(personName)] === 'bard'){
-			role[hueman.lastIndexOf(personName)] = 'clown';
+		else if(job === 'clown' || job === 'bard'){
+			job = 'clown';
+			jobIndex = 15;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'flex' || role[hueman.lastIndexOf(personName)] === 'flexible' || role[hueman.lastIndexOf(personName)] === 'any'){
-			role[hueman.lastIndexOf(personName)] = 'flex';
+		else if(job === 'flex' || job === 'flexible' || job === 'any'){
+			job = 'flex';
+			jobIndex = 18;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'gs' || role[hueman.lastIndexOf(personName)] === 'gunslinger' || role[hueman.lastIndexOf(personName)] === 'slinger'){
-			role[hueman.lastIndexOf(personName)] = 'gs';
+		else if(job === 'gs' || job === 'gunslinger' || job === 'slinger'){
+			job = 'gs';
+			jobIndex = 6;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'gypsy' || role[hueman.lastIndexOf(personName)] === 'dancer'){
-			role[hueman.lastIndexOf(personName)] = 'gypsy';
+		else if(job === 'gypsy' || job === 'dancer'){
+			job = 'gypsy';
+			jobIndex = 16;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'hp' || role[hueman.lastIndexOf(personName)] === 'priest'){
-			role[hueman.lastIndexOf(personName)] = 'hp';
+		else if(job === 'hp' || job === 'priest'){
+			job = 'hp';
+			jobIndex = 2;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'hw' || role[hueman.lastIndexOf(personName)] === 'hwiz' || role[hueman.lastIndexOf(personName)] === 'wiz' || role[hueman.lastIndexOf(personName)] === 'wizard'){
-			role[hueman.lastIndexOf(personName)] = 'hw';
+		else if(job === 'hw' || job === 'hwiz' || job === 'wiz' || job === 'wizard'){
+			job = 'hw';
+			jobIndex = 3;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'lk' || role[hueman.lastIndexOf(personName)] === 'knight'){
-			role[hueman.lastIndexOf(personName)] = 'lk';
+		else if(job === 'lk' || job === 'knight'){
+			job = 'lk';
+			jobIndex = 7;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'ninja' || role[hueman.lastIndexOf(personName)] === 'nin'){
-			role[hueman.lastIndexOf(personName)] = 'ninja';
+		else if(job === 'ninja' || job === 'nin'){
+			job = 'ninja';
+			jobIndex = 5;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'pally' || role[hueman.lastIndexOf(personName)] === 'paladin'){
-			role[hueman.lastIndexOf(personName)] = 'pally';
+		else if(job === 'pally' || job === 'paladin'){
+			job = 'pally';
+			jobIndex = 1;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'prof' || role[hueman.lastIndexOf(personName)] === 'professor'){
-			role[hueman.lastIndexOf(personName)] = 'prof';
+		else if(job === 'prof' || job === 'professor'){
+			job = 'prof';
+			jobIndex = 13;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'sg' || role[hueman.lastIndexOf(personName)] === 'starglad'){
-			role[hueman.lastIndexOf(personName)] = 'sg';
+		else if(job === 'sg' || job === 'starglad'){
+			job = 'sg';
+			jobIndex = 10;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'sinx' || role[hueman.lastIndexOf(personName)] === 'assassin'){
-			role[hueman.lastIndexOf(personName)] = 'sinx';
+		else if(job === 'sinx' || job === 'assassin'){
+			job = 'sinx';
+			jobIndex = 8;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'sl' || role[hueman.lastIndexOf(personName)] === 'linker'){
-			role[hueman.lastIndexOf(personName)] = 'sl';
+		else if(job === 'sl' || job === 'linker'){
+			job = 'sl';
+			jobIndex = 14;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'sniper' || role[hueman.lastIndexOf(personName)] === 'snipe' || role[hueman.lastIndexOf(personName)] === 'snip'){
-			role[hueman.lastIndexOf(personName)] = 'sniper';
+		else if(job === 'sniper' || job === 'snipe' || job === 'snip'){
+			job = 'sniper';
+			jobIndex = 4;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'stalker' || role[hueman.lastIndexOf(personName)] === 'stalk'){
-			role[hueman.lastIndexOf(personName)] = 'stalker';
+		else if(job === 'stalker' || job === 'stalk'){
+			job = 'stalker';
+			jobIndex = 9;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'tk' || role[hueman.lastIndexOf(personName)] === 'taekwon'){
-			role[hueman.lastIndexOf(personName)] = 'tk';
+		else if(job === 'tk' || job === 'taekwon'){
+			job = 'tk';
+			jobIndex = 11;
 		}
-		else if(role[hueman.lastIndexOf(personName)] === 'ws' || role[hueman.lastIndexOf(personName)] === 'whitesmith'){
-			role[hueman.lastIndexOf(personName)] = 'ws';
+		else if(job === 'ws' || job === 'whitesmith'){
+			job = 'ws';
+			jobIndex = 17;
 		}
-		message.channel.send(":white_check_mark: Changed " + personName + "'s role to " + role[hueman.lastIndexOf(personName)].toUpperCase() + ".");
+		else{
+			jobIndex = 19;
+		}
+		if(slot[slot.map(function(e) {return e.hueman}).indexOf(personName)].role === job){
+			message.channel.send("It's the same job bishhhhhhh! :grimacing:");
+		}
+		else{
+			isRoleAvailable = false;
+			for(var x = 0; x<roleCount; x++){
+				if(slot[x].role.toLowerCase() === job && slot[x].hueman === ''){
+					jobIndex = slot.map(function(e) {return e.hueman}).indexOf(personName);
+					slot[x].note = slot[jobIndex].note;
+					//if(slot[jobIndex].role === slot[jobIndex+1].role && slot[jobIndex+1].hueman){
+						//tempSlot = {hueman:'', role:slot[jobIndex].role, note:'', index:slot[jobIndex].index};
+						//slot.splice(jobIndex,1);
+						//slot.push(tempSlot);
+						
+					//}
+					//else{
+						slot[jobIndex].note = '';
+						slot[jobIndex].hueman = '';
+					//}
+					slot[x].hueman = personName;
+					slot.sort(function(a, b){
+						if(a.role === b.role){
+							if(a.hueman === '' && b.hueman){
+								return 1;
+							}
+							else if(b.hueman === '' && a.hueman){
+								return -1;
+							}
+							//return (b.hueman==='')-(a.hueman==='');
+						}
+					});
+					//slotCount++;
+					
+					isRoleAvailable = true;
+					
+					//message.channel.send(":white_check_mark: " + slot[x].hueman + " joined as " + slot[x].role.toUpperCase() + ".");
+					break;
+				}
+			}
+			if(isRoleAvailable === false){
+				slot[slot.map(function(e) {return e.hueman}).indexOf(personName)].role = job;
+				slot[slot.map(function(e) {return e.hueman}).indexOf(personName)].index = jobIndex;
+			}
+			message.channel.send(":white_check_mark: Changed " + personName + "'s role to " + job.toUpperCase() + ".");
+			slot.sort(function(a, b){return a.index-b.index});
+		}
 	}
   }
   else if (command === `${prefix}remove`) {
@@ -252,25 +357,24 @@ var person = parts[2];
 	else if(!name){
 		message.channel.send('Input the role you want to remove bishhhhhhh! :grimacing:\n```correct usage: !remove [name of role]```');
 	}
-	else if(!role.includes(name.toLowerCase())){
+	//else if(!role.includes(name.toLowerCase())){
+	else if(!slot.some(e => e.role === name.toLowerCase())){
 		message.channel.send('There is no such role in the parteh bishhhhhhh! :grimacing:');
 	}
 	else{
-		if(hueman[role.lastIndexOf(name.toLowerCase())] == ''){
+		//if(hueman[role.lastIndexOf(name.toLowerCase())] == ''){
+		if(slot[slot.map(function(e) {return e.role}).lastIndexOf(name.toLowerCase())].hueman === ''){
 			message.channel.send(":white_check_mark: " + name.toUpperCase() + " role has been removed. Muehuehuehuehue :japanese_goblin:");
 		}
 		else{
-			message.channel.send(":white_check_mark: " + name.toUpperCase() + " role has been removed together with " + hueman[role.lastIndexOf(name.toLowerCase())] + ". Muehuehuehuehue :japanese_goblin:");
-			note[hueman[role.lastIndexOf(name.toLowerCase())]] = '';
+			message.channel.send(":white_check_mark: " + name.toUpperCase() + " role has been removed together with " + slot[slot.map(function(e) {return e.role}).indexOf(name.toLowerCase())].hueman + ". Muehuehuehuehue :japanese_goblin:");
+			//slot[slot.map(function(e) {return e.hueman}).lastIndexOf(name.toLowerCase())].note = '';
+			//note[hueman[role.lastIndexOf(name.toLowerCase())]] = '';
 			slotCount--;
 		}
-		hueman.splice(role.lastIndexOf(name.toLowerCase()), 1);
-		hueman[11] = '';
-		note.splice(role.lastIndexOf(name.toLowerCase()), 1);
-		note[11] = '';
-		role.splice(role.lastIndexOf(name.toLowerCase()), 1);
+		slot.splice(slot.map(function(e) {return e.role}).lastIndexOf(name.toLowerCase()), 1);
 		roleCount--;
-		role[11] = '';
+		slot[11] = {hueman:'', role:'', note:'', index:20};
 	}
   }
   else if (command === `${prefix}join`) {
@@ -280,19 +384,20 @@ var person = parts[2];
 	else if(slotCount >= roleCount){
 		message.channel.send("Party roster is full bishhhhhhh! :grimacing:");
 	}
-	else if(hueman.includes(message.author.toString()) == true){
+	else if(slot.some(e => e.hueman === message.author.toString())){
 		message.channel.send('You already joined bishhhhhhh! :grimacing:');
 	}
 	else if(!name){
 		message.channel.send('Input the role you want to join bishhhhhhh! :grimacing:\n```correct usage: !join [name of role]```');
 	}
 	else{
+		isRoleAvailable = false;
 		for(var x = 0; x<roleCount; x++){
-			if(role[x].toLowerCase() === name.toLowerCase() && hueman[x] === ''){
-				hueman[x] = message.author.toString();
+			if(slot[x].role.toLowerCase() === name.toLowerCase() && slot[x].hueman === ''){
+				slot[x].hueman = message.author.toString();
 				slotCount++;
 				isRoleAvailable = true;
-				message.channel.send(":white_check_mark: " + hueman[x] + " joined as " + role[x].toUpperCase() + ".");
+				message.channel.send(":white_check_mark: " + slot[x].hueman + " joined as " + slot[x].role.toUpperCase() + ".");
 				break;
 			}
 		}
@@ -305,12 +410,12 @@ var person = parts[2];
 	if (isPartyCreated == false){
 		message.channel.send("There's no parteh yet bishhhhhhh! :grimacing:");
 	}
-	else if(!name || !role.includes(name.toLowerCase())){
+	else if(!name || !slot.some(e => e.role === name.toLowerCase())){
 		message.channel.send('Input the role you want to join bishhhhhhh! :grimacing:\n```correct usage: !invite [name of role] [name of person]```');
 	}
-	else if(role.includes(name.toLowerCase())==false && hueman[role.lastIndexOf(name.toLowerCase())] == ''){
-		message.channel.send('Role is not available bishhhhhhh! :grimacing:');
-	}
+	//else if(slot.some(e => e.role === name.toLowerCase())==false && slot[role.lastIndexOf(name.toLowerCase())] == ''){
+		//message.channel.send('Role is not available bishhhhhhh! :grimacing:');
+	//}
 	else if(!person){
 		message.channel.send('Input the name of the hueman you want to invite bishhhhhhh! :grimacing:\n```correct usage: !invite [name of role] [name of person]```');
 	}
@@ -322,15 +427,16 @@ var person = parts[2];
 		if (personName.includes("<@!")){
 			personName = personName.replace(/<@!/g,"<@");
 		}
-		if(hueman.includes(personName) === false){
-			if(hueman[role.lastIndexOf(name.toLowerCase())] == ''){
-			}
+		if(slot.some(e => e.hueman === personName) === false){
+			//if(hueman[role.lastIndexOf(name.toLowerCase())] == ''){
+			//}
+			isRoleAvailable = false;
 			for(var x = 0; x<roleCount; x++){
-				if(role[x].toLowerCase() === name.toLowerCase() && hueman[x] === ''){
-					hueman[x] = personName;
+				if(slot[x].role.toLowerCase() === name.toLowerCase() && slot[x].hueman === ''){
+					slot[x].hueman = personName;
 					slotCount++;
 					isRoleAvailable = true;
-					message.channel.send(":white_check_mark: Invited " + hueman[x] + " to join as " + role[x].toUpperCase() + ".");
+					message.channel.send(":white_check_mark: Invited " + slot[x].hueman + " to join as " + slot[x].role.toUpperCase() + ".");
 					break;
 				}
 			}
@@ -348,7 +454,7 @@ var person = parts[2];
 		message.channel.send('Nothing to ditch from bishhhhhhh! :grimacing:');
 	}
 	else{
-		if(hueman.includes(message.author.toString()) === false){
+		if(slot.some(e => e.hueman === message.author.toString()) === false){
 			message.channel.send("You're not even in the list bishhhhhhh! :grimacing:");
 		}
 		else{
@@ -359,8 +465,8 @@ var person = parts[2];
 				if (waitReply === true){
 					waitReply = false;
 					if (replyMsg.content.toLowerCase() === "y") {
-						note[hueman.indexOf(message.author.toString())] = '';
-						hueman[hueman.indexOf(message.author.toString())] = '';
+						slot[slot.map(function(e) {return e.hueman}).indexOf(message.author.toString())].note = '';
+						slot[slot.map(function(e) {return e.hueman}).indexOf(message.author.toString())].hueman = '';
 						slotCount--;
 						message.channel.send(":negative_squared_cross_mark: A shameless person has ditched the parteh. :grimacing:");
 					}
@@ -376,20 +482,20 @@ var person = parts[2];
 	if (isPartyCreated == false){
 		message.channel.send("There's no parteh yet bishhhhhhh! :grimacing:");
 	}
-	else if(!hueman.includes(message.author.toString())){
+	else if(!slot.some(e => e.hueman === message.author.toString())){
 		message.channel.send("You're not even in the parteh bishhhhhhh! :grimacing:");
 	}
 	else if(!name){
-		if(note[hueman.indexOf(message.author.toString())] === ''){
+		if(slot[slot.map(function(e) {return e.hueman}).indexOf(message.author.toString())].note === ''){
 			message.channel.send("Your note is blank bishhhhhhh! :grimacing:\n```correct usage: !note [your message here]```");
 		}
 		else{
-			note[hueman.indexOf(message.author.toString())] = '';
+			slot[slot.map(function(e) {return e.hueman}).indexOf(message.author.toString())].note = '';
 			message.channel.send(":negative_squared_cross_mark: The note has been shamelessly removed muehuehuehuehue :japanese_goblin:");
 		}
 	}
 	else{
-		note[hueman.indexOf(message.author.toString())] = " (" + content.slice(6) + ")";
+		slot[slot.map(function(e) {return e.hueman}).indexOf(message.author.toString())].note = " (" + content.slice(6) + ")";
 		message.channel.send(":white_check_mark: The note has been shamelessly added muehuehuehuehue :japanese_goblin:");
 	}
   }
@@ -404,12 +510,12 @@ var person = parts[2];
 	else if(!name){
 		message.channel.send("Input a name bishhhhhhh! :grimacing:\n```correct usage: !kick [name of person]```");
 	}
-	else if(!hueman.includes(personName)){
+	else if(slot.some(e => e.hueman === personName) === false){
 		message.channel.send(personName + " is not even in the parteh bishhhhhhh! :grimacing:");
 	}
 	else{
-		note[hueman.indexOf(personName)] = '';
-		hueman[hueman.indexOf(personName)] = '';
+		slot[slot.map(function(e) {return e.hueman}).indexOf(personName)].note = '';
+		slot[slot.map(function(e) {return e.hueman}).indexOf(personName)].hueman = '';
 		slotCount--;
 		message.channel.send(":negative_squared_cross_mark: "+personName+" has been shamelessly kicked hard out of the parteh muehuehuehuehue :japanese_goblin:");
 	}
@@ -443,74 +549,86 @@ var person = parts[2];
 		partyRosterString = '';
 		roleCount = 12;
 		slotCount = 0;
-		hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
-		role = ['champ', 'pally', 'hw', 'hp', 'hp', 'sniper', 'sniper', 'bio', 'flex', 'flex', 'flex', 'flex'];
-		note = ['', '', '', '', '', '', '', '', '', '', '', ''];
+		slot = [{hueman:'', role:'champ', note:'', index:0},
+		{hueman:'', role:'pally', note:'', index:1},
+		{hueman:'', role:'hp', note:'', index:2},
+		{hueman:'', role:'hp', note:'', index:2},
+		{hueman:'', role:'hw', note:'', index:3},
+		{hueman:'', role:'sniper', note:'', index:4},
+		{hueman:'', role:'sniper', note:'', index:4},
+		{hueman:'', role:'bio', note:'', index:12},
+		{hueman:'', role:'flex', note:'', index:18},
+		{hueman:'', role:'flex', note:'', index:18},
+		{hueman:'', role:'flex', note:'', index:18},
+		{hueman:'', role:'flex', note:'', index:18}];
+		//hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
+		//role = ['champ', 'pally', 'hp', 'hp', 'hw', 'sniper', 'sniper', 'bio', 'flex', 'flex', 'flex', 'flex'];
+		//note = ['', '', '', '', '', '', '', '', '', '', '', ''];
 		message.channel.send(":white_check_mark: George has setup the party roster cuz " + organizer + " is too lazeh :japanese_goblin:");
 		for(var x = 0; x < 12; x++){
-			if(role[x]===''){
+			if(slot[x].role===''){
 				partyRosterString = partyRosterString.concat(":free: (Free)\n");
 			}
 			else{
-				if(role[x]==='bio'){
-					partyRosterString = partyRosterString.concat(":moneybag: Bio: " + hueman[x] + note[x] + "\n");
+				if(slot[x].role==='bio'){
+					partyRosterString = partyRosterString.concat(":moneybag: Bio: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='champ'){
-					partyRosterString = partyRosterString.concat(":punch: Champ: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='champ'){
+					partyRosterString = partyRosterString.concat(":punch: Champ: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='clown'){
-					partyRosterString = partyRosterString.concat(":guitar: Clown: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='clown'){
+					partyRosterString = partyRosterString.concat(":guitar: Clown: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='flex'){
-					partyRosterString = partyRosterString.concat(":star: Flex: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='flex'){
+					partyRosterString = partyRosterString.concat(":star: Flex: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='gs'){
-					partyRosterString = partyRosterString.concat(":gun: GS: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='gs'){
+					partyRosterString = partyRosterString.concat(":gun: GS: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='gypsy'){
-					partyRosterString = partyRosterString.concat(":dancer: Gypsy: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='gypsy'){
+					partyRosterString = partyRosterString.concat(":dancer: Gypsy: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='hp'){
-					partyRosterString = partyRosterString.concat(":syringe: HP: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='hp'){
+					partyRosterString = partyRosterString.concat(":syringe: HP: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='hw'){
-					partyRosterString = partyRosterString.concat(":sparkles: HW: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='hw'){
+					partyRosterString = partyRosterString.concat(":sparkles: HW: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='lk'){
-					partyRosterString = partyRosterString.concat(":crossed_swords: LK: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='lk'){
+					partyRosterString = partyRosterString.concat(":crossed_swords: LK: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='ninja'){
-					partyRosterString = partyRosterString.concat(":chopsticks: Ninja: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='ninja'){
+					partyRosterString = partyRosterString.concat(":chopsticks: Ninja: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='pally'){
-					partyRosterString = partyRosterString.concat(":shield: Pally: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='pally'){
+					partyRosterString = partyRosterString.concat(":shield: Pally: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='prof'){
-					partyRosterString = partyRosterString.concat(":book: Prof: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='prof'){
+					partyRosterString = partyRosterString.concat(":book: Prof: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='sg'){
-					partyRosterString = partyRosterString.concat(":star: SG: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='sg'){
+					partyRosterString = partyRosterString.concat(":star: SG: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='sinx'){
-					partyRosterString = partyRosterString.concat(":knife: SinX: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='sinx'){
+					partyRosterString = partyRosterString.concat(":knife: SinX: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='sl'){
-					partyRosterString = partyRosterString.concat(":link: SL: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='sl'){
+					partyRosterString = partyRosterString.concat(":link: SL: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='sniper'){
-					partyRosterString = partyRosterString.concat(":bow_and_arrow: Sniper: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='sniper'){
+					partyRosterString = partyRosterString.concat(":bow_and_arrow: Sniper: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='stalker'){
-					partyRosterString = partyRosterString.concat(":spy: Stalker: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='stalker'){
+					partyRosterString = partyRosterString.concat(":spy: Stalker: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='tk'){
-					partyRosterString = partyRosterString.concat(":martial_arts_uniform: TK: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='tk'){
+					partyRosterString = partyRosterString.concat(":martial_arts_uniform: TK: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='ws'){
-					partyRosterString = partyRosterString.concat(":hammer: WS: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='ws'){
+					partyRosterString = partyRosterString.concat(":hammer: WS: " + slot[x].hueman + slot[x].note + "\n");
 				}
 				else{
-					partyRosterString = partyRosterString.concat(":bust_in_silhouette: " + role[x] + ": " + hueman[x] + note[x] + "\n");
+					partyRosterString = partyRosterString.concat(":bust_in_silhouette: " + slot[x].role + ":" + slot[x].hueman + slot[x].note + "\n");
 				}
 			}
 		}
@@ -544,9 +662,18 @@ var person = parts[2];
 				if (replyMsg.content.toLowerCase() === "y") {
 					roleCount = 0;
 					slotCount = 0;
-					hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
-					role = ['', '', '', '', '', '', '', '', '', '', '', ''];
-					note = ['', '', '', '', '', '', '', '', '', '', '', ''];
+					slot = [{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20}];
 					message.channel.send(":negative_squared_cross_mark: The parteh roster has now been wiped clean. :grimacing:");
 					const embed = new RichEmbed()
 					  .setTitle("Strange Despair's " + runName + " " + timeMsg)
@@ -591,69 +718,70 @@ var person = parts[2];
 	else if(isPartyCreated == true){
 		partyRosterString = '';
 		for(var x = 0; x < 12; x++){
-			if(role[x]===''){
+			//console.log(slot[x]);
+			if(slot[x].role===''){
 				partyRosterString = partyRosterString.concat(":free: (Free)\n");
 			}
 			else{
-				if(role[x]==='bio'){
-					partyRosterString = partyRosterString.concat(":moneybag: Bio: " + hueman[x] + note[x] + "\n");
+				if(slot[x].role==='bio'){
+					partyRosterString = partyRosterString.concat(":moneybag: Bio: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='champ'){
-					partyRosterString = partyRosterString.concat(":punch: Champ: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='champ'){
+					partyRosterString = partyRosterString.concat(":punch: Champ: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='clown'){
-					partyRosterString = partyRosterString.concat(":guitar: Clown: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='clown'){
+					partyRosterString = partyRosterString.concat(":guitar: Clown: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='flex'){
-					partyRosterString = partyRosterString.concat(":star: Flex: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='flex'){
+					partyRosterString = partyRosterString.concat(":star: Flex: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='gs'){
-					partyRosterString = partyRosterString.concat(":gun: GS: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='gs'){
+					partyRosterString = partyRosterString.concat(":gun: GS: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='gypsy'){
-					partyRosterString = partyRosterString.concat(":dancer: Gypsy: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='gypsy'){
+					partyRosterString = partyRosterString.concat(":dancer: Gypsy: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='hp'){
-					partyRosterString = partyRosterString.concat(":syringe: HP: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='hp'){
+					partyRosterString = partyRosterString.concat(":syringe: HP: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='hw'){
-					partyRosterString = partyRosterString.concat(":sparkles: HW: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='hw'){
+					partyRosterString = partyRosterString.concat(":sparkles: HW: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='lk'){
-					partyRosterString = partyRosterString.concat(":crossed_swords: LK: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='lk'){
+					partyRosterString = partyRosterString.concat(":crossed_swords: LK: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='ninja'){
-					partyRosterString = partyRosterString.concat(":chopsticks: Ninja: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='ninja'){
+					partyRosterString = partyRosterString.concat(":chopsticks: Ninja: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='pally'){
-					partyRosterString = partyRosterString.concat(":shield: Pally: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='pally'){
+					partyRosterString = partyRosterString.concat(":shield: Pally: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='prof'){
-					partyRosterString = partyRosterString.concat(":book: Prof: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='prof'){
+					partyRosterString = partyRosterString.concat(":book: Prof: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='sg'){
-					partyRosterString = partyRosterString.concat(":star: SG: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='sg'){
+					partyRosterString = partyRosterString.concat(":star: SG: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='sinx'){
-					partyRosterString = partyRosterString.concat(":knife: SinX: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='sinx'){
+					partyRosterString = partyRosterString.concat(":knife: SinX: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='sl'){
-					partyRosterString = partyRosterString.concat(":link: SL: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='sl'){
+					partyRosterString = partyRosterString.concat(":link: SL: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='sniper'){
-					partyRosterString = partyRosterString.concat(":bow_and_arrow: Sniper: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='sniper'){
+					partyRosterString = partyRosterString.concat(":bow_and_arrow: Sniper: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='stalker'){
-					partyRosterString = partyRosterString.concat(":spy: Stalker: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='stalker'){
+					partyRosterString = partyRosterString.concat(":spy: Stalker: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='tk'){
-					partyRosterString = partyRosterString.concat(":martial_arts_uniform: TK: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='tk'){
+					partyRosterString = partyRosterString.concat(":martial_arts_uniform: TK: " + slot[x].hueman + slot[x].note + "\n");
 				}
-				else if(role[x]==='ws'){
-					partyRosterString = partyRosterString.concat(":hammer: WS: " + hueman[x] + note[x] + "\n");
+				else if(slot[x].role==='ws'){
+					partyRosterString = partyRosterString.concat(":hammer: WS: " + slot[x].hueman + slot[x].note + "\n");
 				}
 				else{
-					partyRosterString = partyRosterString.concat(":bust_in_silhouette: " + role[x] + ": " + hueman[x] + note[x] + "\n");
+					partyRosterString = partyRosterString.concat(":bust_in_silhouette: " + slot[x].role + ":" + slot[x].hueman + slot[x].note + "\n");
 				}
 			}
 		}
@@ -699,9 +827,18 @@ var person = parts[2];
 					roleCount = 0;
 					slotCount = 0;
 					isPartyCreated = false;
-					hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
-					role = ['', '', '', '', '', '', '', '', '', '', '', ''];
-					note = ['', '', '', '', '', '', '', '', '', '', '', ''];
+					slot = [{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20},
+					{hueman:'', role:'', note:'', index:20}];
 					message.channel.send(":negative_squared_cross_mark: The parteh has now been devoured deep within the abyssal void. :grimacing:");
 				}
 				else{
