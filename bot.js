@@ -45,7 +45,7 @@ let personName;
  * received from Discord
  */
 client.on('ready', () => {
-  console.log('I am ready!');
+  console.log('I am ready perfectly!');
 });
 
 client.on('message', async message => {
@@ -311,33 +311,21 @@ var person = parts[2];
 				if(slot[x].role.toLowerCase() === job && slot[x].hueman === ''){
 					jobIndex = slot.map(function(e) {return e.hueman}).indexOf(personName);
 					slot[x].note = slot[jobIndex].note;
-					//if(slot[jobIndex].role === slot[jobIndex+1].role && slot[jobIndex+1].hueman){
-						//tempSlot = {hueman:'', role:slot[jobIndex].role, note:'', index:slot[jobIndex].index};
-						//slot.splice(jobIndex,1);
-						//slot.push(tempSlot);
-						
-					//}
-					//else{
-						slot[jobIndex].note = '';
-						slot[jobIndex].hueman = '';
-					//}
-					slot[x].hueman = personName;
-					slot.sort(function(a, b){
-						if(a.role === b.role){
-							if(a.hueman === '' && b.hueman){
-								return 1;
-							}
-							else if(b.hueman === '' && a.hueman){
-								return -1;
-							}
-							//return (b.hueman==='')-(a.hueman==='');
+					slot[jobIndex].note = '';
+					slot[jobIndex].hueman = '';
+					slot[x].hueman = personName
+					for(var y = jobIndex; y<(roleCount-1); y++){
+						if(slot[y].role === slot[y+1].role && slot[y].hueman === ''){
+							slot[y].hueman = slot[y+1].hueman;
+							slot[y].note = slot[y+1].note;
+							slot[y+1].hueman = '';
+							slot[y+1].note = '';
 						}
-					});
-					//slotCount++;
-					
+						else{
+							break;
+						}
+					}
 					isRoleAvailable = true;
-					
-					//message.channel.send(":white_check_mark: " + slot[x].hueman + " joined as " + slot[x].role.toUpperCase() + ".");
 					break;
 				}
 			}
@@ -357,19 +345,15 @@ var person = parts[2];
 	else if(!name){
 		message.channel.send('Input the role you want to remove bishhhhhhh! :grimacing:\n```correct usage: !remove [name of role]```');
 	}
-	//else if(!role.includes(name.toLowerCase())){
 	else if(!slot.some(e => e.role === name.toLowerCase())){
 		message.channel.send('There is no such role in the parteh bishhhhhhh! :grimacing:');
 	}
 	else{
-		//if(hueman[role.lastIndexOf(name.toLowerCase())] == ''){
 		if(slot[slot.map(function(e) {return e.role}).lastIndexOf(name.toLowerCase())].hueman === ''){
 			message.channel.send(":white_check_mark: " + name.toUpperCase() + " role has been removed. Muehuehuehuehue :japanese_goblin:");
 		}
 		else{
-			message.channel.send(":white_check_mark: " + name.toUpperCase() + " role has been removed together with " + slot[slot.map(function(e) {return e.role}).indexOf(name.toLowerCase())].hueman + ". Muehuehuehuehue :japanese_goblin:");
-			//slot[slot.map(function(e) {return e.hueman}).lastIndexOf(name.toLowerCase())].note = '';
-			//note[hueman[role.lastIndexOf(name.toLowerCase())]] = '';
+			message.channel.send(":white_check_mark: " + name.toUpperCase() + " role has been removed together with " + slot[slot.map(function(e) {return e.role}).lastIndexOf(name.toLowerCase())].hueman + ". Muehuehuehuehue :japanese_goblin:");
 			slotCount--;
 		}
 		slot.splice(slot.map(function(e) {return e.role}).lastIndexOf(name.toLowerCase()), 1);
@@ -561,9 +545,6 @@ var person = parts[2];
 		{hueman:'', role:'flex', note:'', index:18},
 		{hueman:'', role:'flex', note:'', index:18},
 		{hueman:'', role:'flex', note:'', index:18}];
-		//hueman = ['', '', '', '', '', '', '', '', '', '', '', ''];
-		//role = ['champ', 'pally', 'hp', 'hp', 'hw', 'sniper', 'sniper', 'bio', 'flex', 'flex', 'flex', 'flex'];
-		//note = ['', '', '', '', '', '', '', '', '', '', '', ''];
 		message.channel.send(":white_check_mark: George has setup the party roster cuz " + organizer + " is too lazeh :japanese_goblin:");
 		for(var x = 0; x < 12; x++){
 			if(slot[x].role===''){
@@ -662,18 +643,10 @@ var person = parts[2];
 				if (replyMsg.content.toLowerCase() === "y") {
 					roleCount = 0;
 					slotCount = 0;
-					slot = [{hueman:'', role:'', note:'', index:20},
-					{hueman:'', role:'', note:'', index:20},
-					{hueman:'', role:'', note:'', index:20},
-					{hueman:'', role:'', note:'', index:20},
-					{hueman:'', role:'', note:'', index:20},
-					{hueman:'', role:'', note:'', index:20},
-					{hueman:'', role:'', note:'', index:20},
-					{hueman:'', role:'', note:'', index:20},
-					{hueman:'', role:'', note:'', index:20},
-					{hueman:'', role:'', note:'', index:20},
-					{hueman:'', role:'', note:'', index:20},
-					{hueman:'', role:'', note:'', index:20}];
+					for(x=0; x<roleCount; x++){
+						slot[x].hueman = '';
+						slot[x].note = '';
+					}
 					message.channel.send(":negative_squared_cross_mark: The parteh roster has now been wiped clean. :grimacing:");
 					const embed = new RichEmbed()
 					  .setTitle("Strange Despair's " + runName + " " + timeMsg)
