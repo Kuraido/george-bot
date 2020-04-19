@@ -672,8 +672,8 @@ var person = parts[2];
 	else{
 		partyRosterString = '';
 		for(var x = 0; x<12; x++){
-			if(hueman[x].length > 0){
-				partyRosterString = partyRosterString.concat(hueman[x] + ' ');
+			if(slot[x].hueman.length > 0){
+				partyRosterString = partyRosterString.concat(slot[x].hueman + ' ');
 			}
 		}
 		if(partyRosterString.length > 0){
