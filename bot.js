@@ -620,7 +620,11 @@ var person = parts[2];
 			var partehHour = Math.trunc(diffTime / 60);
 			var partehMinute = Math.round(diffTime % 60);
 			if(partehTime >= currentTime){
-				timeMsg = "(" + partehHour + " hours " + partehMinute + " minutes before the start of despair)";
+				timeMsg = "(";
+				if(partehHour > 0){
+					timeMsg = timeMsg.concat(partehHour + " hours ");
+				}
+				timeMsg = timeMsg.concat(partehMinute + " minutes before the start of despair)");
 			}
 			else{
 				timeMsg = "(ongoing despair muehuehuehuehue :japanese_goblin:)";
@@ -765,7 +769,11 @@ var person = parts[2];
 			var partehHour = Math.trunc(diffTime / 60);
 			var partehMinute = Math.round(diffTime % 60);
 			if(partehTime >= currentTime){
-				timeMsg = "(" + partehHour + " hours " + partehMinute + " minutes before the start of despair)";
+				timeMsg = "(";
+				if(partehHour > 0){
+					timeMsg = timeMsg.concat(partehHour + " hours ");
+				}
+				timeMsg = timeMsg.concat(partehMinute + " minutes before the start of despair)");
 			}
 			else{
 				timeMsg = "(ongoing despair muehuehuehuehue :japanese_goblin:)";
