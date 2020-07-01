@@ -1,15 +1,18 @@
 {
-	"name": "greeter-bot",
-	"version": "1.0.0",
-	"description": "My First Lab Rat",
-	"main": "bot.js",
-	"author": "Kuraido",
+  "name": "george-robot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
   "scripts": {
     "start": "node bot.js"
   },
-	"dependencies": {
-		"discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
-		"discord.js": "^11.4.2",
-		"winston": "^3.1.0"
-	}
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "express": "^4.17.1",
+    "firebase-admin": "^8.12.1"
+  }
 }
+
