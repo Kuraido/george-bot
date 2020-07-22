@@ -24,7 +24,7 @@ let orgMsg = '';
 let timeMsg = '';
 let info = '';
 let setTime;
-let partehTime = 0;
+let partehTime = null;
 let organizer;
 let slot = [];
 let job;
@@ -791,7 +791,7 @@ if (isPartyCreated == false){
 					}
 				}
 			}
-			if(partehTime || partehTime > 0){
+			if(partehTime !== null){
 				var currentTime = new Date();
 				currentTime.setMinutes(currentTime.getMinutes() - currentTime.getTimezoneOffset());
 				var diffTime = (partehTime - currentTime) / 60000;
@@ -929,7 +929,7 @@ if (isPartyCreated == false){
 					}
 				}
 			}
-			if(partehTime || partehTime > 0){
+			if(partehTime !== null){
 				var currentTime = new Date();
 				currentTime.setMinutes(currentTime.getMinutes() - currentTime.getTimezoneOffset());
 				var diffTime = (partehTime - currentTime) / 60000;
@@ -984,7 +984,7 @@ if (isPartyCreated == false){
 				if (waitReply === true){
 					waitReply = false;
 					if (replyMsg.content.toLowerCase() === "y") {
-						partehTime = 0;
+						partehTime = null;
 						runName = '';
 						info = '';
 						roleCount = 0;
