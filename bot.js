@@ -24,7 +24,7 @@ let orgMsg = '';
 let timeMsg = '';
 let info = '';
 let setTime;
-let partehTime;
+let partehTime = 0;
 let organizer;
 let slot = [];
 let job;
