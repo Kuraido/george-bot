@@ -791,7 +791,7 @@ if (isPartyCreated == false){
 					}
 				}
 			}
-			if(partehTime){
+			if(partehTime || partehTime > 0){
 				var currentTime = new Date();
 				currentTime.setMinutes(currentTime.getMinutes() - currentTime.getTimezoneOffset());
 				var diffTime = (partehTime - currentTime) / 60000;
@@ -929,7 +929,7 @@ if (isPartyCreated == false){
 					}
 				}
 			}
-			if(partehTime){
+			if(partehTime || partehTime > 0){
 				var currentTime = new Date();
 				currentTime.setMinutes(currentTime.getMinutes() - currentTime.getTimezoneOffset());
 				var diffTime = (partehTime - currentTime) / 60000;
@@ -984,7 +984,7 @@ if (isPartyCreated == false){
 				if (waitReply === true){
 					waitReply = false;
 					if (replyMsg.content.toLowerCase() === "y") {
-						partehTime;
+						partehTime = 0;
 						runName = '';
 						info = '';
 						roleCount = 0;
