@@ -159,7 +159,10 @@ var person = parts[2];
       }
 		} else {
 			job = name.toLowerCase();
-			if(job === 'bio' || job === 'creator'){
+			if(job === 'asura' || job === 'sura'){
+				job = 'asura';
+				jobIndex = 21*12;
+			} else if(job === 'bio' || job === 'creator'){
 				job = 'bio';
 				jobIndex = 13*12;
 			} else if(job === 'champ' || job === 'champion'){
@@ -220,7 +223,7 @@ var person = parts[2];
 				job = 'ws';
 				jobIndex = 18*12;
 			} else {
-				jobIndex = 21*12;
+				jobIndex = 22*12;
 			}
 			slot[roleCount].role = job;
 			slot[roleCount].index = jobIndex;
@@ -264,7 +267,10 @@ var person = parts[2];
 			message.channel.send(personName + " is not even in the parteh bishhhhhhh! :grimacing:");
 		} else {
 			job = name.toLowerCase();
-			if(job === 'bio' || job === 'creator'){
+			if(job === 'asura' || job === 'sura'){
+				job = 'asura';
+				jobIndex = 21*12;
+			} else if(job === 'bio' || job === 'creator'){
 				job = 'bio';
 				jobIndex = 13*12;
 			} else if(job === 'champ' || job === 'champion'){
@@ -325,7 +331,7 @@ var person = parts[2];
 				job = 'ws';
 				jobIndex = 18*12;
 			} else {
-				jobIndex = 21*12;
+				jobIndex = 22*12;
 			}
 			if(slot[slot.map(function(e) {return e.hueman}).indexOf(personName)].role === job){
 				message.channel.send("It's the same job bishhhhhhh! :grimacing:");
@@ -746,10 +752,12 @@ if (isPartyCreated == false){
 					partyRosterString = partyRosterString.concat(":free: (Free)\n");
 				}
 				else{
-					if(slot[x].role==='bio'){
+					if(slot[x].role==='asura'){
+						partyRosterString = partyRosterString.concat(":punch: Asura: " + slot[x].hueman + slot[x].note + "\n");
+					} else ifif(slot[x].role==='bio'){
 						partyRosterString = partyRosterString.concat(":moneybag: Bio: " + slot[x].hueman + slot[x].note + "\n");
 					} else if(slot[x].role==='champ'){
-						partyRosterString = partyRosterString.concat(":punch: Champ: " + slot[x].hueman + slot[x].note + "\n");
+						partyRosterString = partyRosterString.concat(":mechanical_arm: Champ: " + slot[x].hueman + slot[x].note + "\n");
 					} else if(slot[x].role==='clown'){
 						partyRosterString = partyRosterString.concat(":guitar: Clown: " + slot[x].hueman + slot[x].note + "\n");
 					} else if(slot[x].role==='flex'){
@@ -884,10 +892,12 @@ if (isPartyCreated == false){
 				if(slot[x].role===''){
 					partyRosterString = partyRosterString.concat(":free: (Free)\n");
 				} else {
-					if(slot[x].role==='bio'){
+					if(slot[x].role==='asura'){
+						partyRosterString = partyRosterString.concat(":punch: Asura: " + slot[x].hueman + slot[x].note + "\n");
+					} else if(slot[x].role==='bio'){
 						partyRosterString = partyRosterString.concat(":moneybag: Bio: " + slot[x].hueman + slot[x].note + "\n");
 					} else if(slot[x].role==='champ'){
-						partyRosterString = partyRosterString.concat(":punch: Champ: " + slot[x].hueman + slot[x].note + "\n");
+						partyRosterString = partyRosterString.concat(":mechanical_arm: Champ: " + slot[x].hueman + slot[x].note + "\n");
 					} else if(slot[x].role==='clown'){
 						partyRosterString = partyRosterString.concat(":guitar: Clown: " + slot[x].hueman + slot[x].note + "\n");
 					} else if(slot[x].role==='flex'){
